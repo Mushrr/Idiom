@@ -1,7 +1,7 @@
 {
-  "name": "mushr-koa-template",
+  "name": "koa-template",
   "version": "0.0.1",
-  "description": "mushr koa template",
+  "description": "koa template",
   "main": "index.js",
   "author": "mushr",
   "license": "MIT",
