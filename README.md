@@ -9,3 +9,7 @@ yarn install
 
 yarn start
 ```
+![](https://github.com/Mushrr/koa-template/blob/main/assets/image/index.png)
+
+huangxingjiegkd@163.com  
+mushroom@mails.ccnu.edu.cn
