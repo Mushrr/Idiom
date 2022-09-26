@@ -1,15 +1,8 @@
-# koa-template
-koa template
-```js
-git clone https://github.com/Mushrr/koa-template
+### Idiom Server
 
-cd koa-template
 
+```javascript
 yarn install
 
 yarn start
 ```
-![](https://github.com/Mushrr/koa-template/blob/main/assets/image/index.png)
-
-huangxingjiegkd@163.com  
-mushroom@mails.ccnu.edu.cn
