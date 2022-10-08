@@ -16,7 +16,8 @@ function handleSQL(sql) {
     let ans = fs.readFileSync(path.join(__dirname, sql.path), {
         encoding: 'utf-8'
     }).toString();
-    console.log(ans.split(';'));
+    console.log(ans.split(';').map(el => el.trim()));
+    // 执行处理工作
 }
 
 function handleMongo() {

@@ -6,6 +6,7 @@
   "author": "mushr",
   "license": "MIT",
   "scripts": {
+    "init": "node ./init/init.js",
     "start": "node index.js"
   },
   "dependencies": {

@@ -4,6 +4,10 @@
 ```javascript
 yarn install
 
+
+// 数据库初始化
+yarn  run init
+
 yarn start
 ```
 
