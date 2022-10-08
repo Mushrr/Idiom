@@ -34,7 +34,7 @@ function handleSQL(sql) {
 /**
  * 
  * @param {{
- *      type: 'sql',
+ *      type: 'mongo',
  *      path: '路径',
  *      filename: '文件名' 
  * }} mongoVal 
