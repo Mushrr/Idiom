@@ -33,4 +33,6 @@ create table idiom_detail(
 create table idiom_attr(
     recommend_code char(32) primary key comment '当前成语的推荐ID',
     -- TODO  商榷成语的属性
-)
+);
+
+
