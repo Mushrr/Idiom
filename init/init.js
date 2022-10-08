@@ -1,10 +1,22 @@
+const fs = require('fs');
+const path = require('path');
 const { tree, ls, getSuffixName } = require('../utils/utils');
 
 
 
-
+/**
+ * 
+ * @param {{
+ *      type: 'sql',
+ *      path: '路径',
+ *      filename: '文件名' 
+ * }} sql 
+ */
 function handleSQL(sql) {
-    console.log(sql);
+    let ans = fs.readFileSync(path.join(__dirname, sql.path), {
+        encoding: 'utf-8'
+    }).toString();
+    console.log(ans.split(';'));
 }
 
 function handleMongo() {

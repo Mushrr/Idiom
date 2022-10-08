@@ -1,7 +1,7 @@
-create table idiom (
+create table game (
     id varchar(32),
 );
 
-create table idiom (
+create table game (
     id varchar(32),
 );
