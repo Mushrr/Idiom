@@ -22,5 +22,5 @@ handleRedis(value);
 
 | 可以在当前文件夹下编写sql，mongo，redis配置项，执行`yarn run init`的时候会自动解析文件，并且执行
 
-![](../screenshots/db/mongo1.png)
-![](../screenshots/db/mysql1.png)
+![](https://github.com/Mushrr/Idiom/edit/main/screenshots/db/mongo1.png)
+![](https://github.com/Mushrr/Idiom/edit/main/screenshots/db/mysql1.png)
