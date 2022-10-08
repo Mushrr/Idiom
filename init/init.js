@@ -4,8 +4,7 @@ const { exec } = require('child_process');
 const path = require('path');
 const { tree, ls, getSuffixName } = require('../utils/utils');
 const { logger } = require('../middlewares/logger');
-
-
+const { sql: sqlClient } = require('../utils/db')
 
 /**
  * 
@@ -19,7 +18,16 @@ function handleSQL(sql) {
     let ans = fs.readFileSync(path.join(__dirname, sql.path), {
         encoding: 'utf-8'
     }).toString();
-    // console.log(ans.split(';').map(el => el.trim()));
+    
+    let sqls = ans.split(';').map(el => el.trim());
+    
+    for (let sqlData of sqls) {
+        console.log(sqlData);
+        if (sqlData !== '') {
+            sqlClient.query(sqlData).then(ans => {
+            }); // 执行
+        }
+    }
     // 执行处理工作
 }
 
@@ -36,7 +44,7 @@ function handleMongo(mongoVal) {
         if (err) {
             throw err;
         } else {
-            // console.log(out);
+            console.log(out);
         }
     })
 }

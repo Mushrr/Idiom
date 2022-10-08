@@ -1,0 +1,14 @@
+// mongodb script 
+db = connect('mongodb://localhost/idiom');
+
+
+db.game.insertOne({
+    game_id: "XXXXXXX", // 游戏ID
+    game_name: "", // 游戏名称
+    game_resources: [
+
+    ], // 以url形式加载的资源们
+    game_rules: [
+
+    ], // 游戏规则, 需要详细内置, 帮助快速开发
+})

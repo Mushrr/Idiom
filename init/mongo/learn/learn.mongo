@@ -1,0 +1,17 @@
+// 学习事务记录
+
+db = connect('mongodb://localhost/idiom');
+
+db.learn.insertOne({
+    learning_id: "XXXXXXXXXXXXXXXXXXXXXXXXXXX", // 学习id
+    pattern_type: "search", // 事务类型
+    begin_time: "", // 开始时间
+    end_time: "", // 截止时间
+    course_id: "", // 课程ID， 可选可不选
+    game_id: "", // 游戏ID
+    final_score: "", // 最终得分
+    state: {
+
+    }, // 状态管理，用于回溯到之前的状态
+})
+

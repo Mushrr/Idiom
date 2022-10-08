@@ -20,7 +20,8 @@ const mysqlConfig = {
     host: "localhost",
     user: "idiom",
     password: "idiom",
-    port: 3306
+    port: 3306,
+    database: 'idiom'
 }
 
 // mongodb config

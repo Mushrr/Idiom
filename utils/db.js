@@ -14,16 +14,22 @@ class mysqlClient {
      * @param sql sql语句
      * @returns {Promise<unknown>}
      */
-    query(sql) {
+    query(sql,callback) {
         return new Promise((resolve, reject) => {
             this.connectionPool.getConnection((err, connect) => {
                 if (err) {
                     logger.error(err);
                     reject(err); // 直接拒绝
                 } else {
-                    resolve(connect.query({
-                        sql: sql,
-                    })); // 提交查询期约
+                    connect.query(sql, (error, result, fields) => {
+                        if (error) {
+                            reject(error);
+                        }
+                        if (callback) {
+                            callback(result, fields);
+                        }
+                        resolve(result); // 返回期约
+                    });
                 }
             })
         })

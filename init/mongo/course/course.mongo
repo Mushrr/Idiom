@@ -1,0 +1,26 @@
+// course
+
+const db = connect('mongodb://localhost/idiom');
+
+db.course.insertOne({
+    course_id: "xxxxxxxxxxx",
+    resources: {
+        text: {
+
+        },
+        img: {
+
+        },
+        audio: {
+
+        },
+        video: {
+
+        },
+    },
+    activate_stream: {
+
+    },
+    next_page_id: "xxxx", // 下一个页面的id, 一般会提前加载
+})
+

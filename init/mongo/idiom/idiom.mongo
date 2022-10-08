@@ -1,19 +1,73 @@
 // mongodb script 
 db = connect('mongodb://localhost/idiom');
 
-db.movies.insertMany( [
-    {
-       title: 'Titanic',
-       year: 1997,
-       genres: [ 'Drama', 'Romance' ]
-    },
-    {
-       title: 'Spirited Away',
-       year: 2001,
-       genres: [ 'Animation', 'Adventure', 'Family' ]
-    },
-    {
-       title: 'Casablanca',
-       genres: [ 'Drama', 'Romance', 'War' ]
-    }
-])
+db.history_story.insertOne({
+   // UUID
+   story_id: "XXXX-xxx-xxx-XXXX",
+   time_point: "新唐",
+   participant: [
+      "张玄素",
+   ],
+   story: "《新唐书·张玄素传》：“从善若流，尚恐不逮，饰非拒谏，祸可既乎？",
+   img: [
+
+   ],
+   audio: [
+
+   ],
+   video: [
+
+   ],
+   activate_stream: {
+
+   }
+});
+// activate_stream 是流，是当前成语配置的理解方式.
+
+db.usage_story.insertOne({
+   // UUID
+   story_id: "XXXX-xxx-xxx-XXXX",
+   story: "《新唐书·张玄素传》：“从善若流，尚恐不逮，饰非拒谏，祸可既乎？",
+   img: [
+
+   ],
+   audio: [
+
+   ],
+   video: [
+
+   ],
+   activate_stream: {
+
+   }
+});
+
+db.remember_story.insertOne({
+   story_id: "XXXX-xxx-xxx-XXXX",
+   usage_code: "xxxxx", // 成语的各个释义的编码
+   story: "",
+   img: [
+
+   ],
+   audio: [
+
+   ],
+   video: [
+
+   ],
+   activate_stream: {
+
+   }
+});
+
+db.idiom_attr.insertOne({
+   idiom_code: "xxxx", // 成语唯一编码
+   attr: [
+      {
+         propname: "xxx",
+         value: 0.7
+      }
+      // 多个维度的属性信息，可以动态添加标签
+      // 值默认为1，可以设置01之间
+   ]
+})
