@@ -1,7 +1,7 @@
 // 常用函数
-const fs = require('fs/promises');
-const path = require('path');
-const { logger } = require('../middlewares/logger');
+const fs = require("fs/promises");
+const path = require("path");
+const { logger } = require("../middlewares/logger");
 
 /**
  * 
@@ -9,11 +9,11 @@ const { logger } = require('../middlewares/logger');
  * @returns 当前文件的后缀
  */
 function getSuffixName(filename) {
-    if (filename.indexOf('.') !== -1) {
-        let filenameSperated = filename.split('.');
+    if (filename.indexOf(".") !== -1) {
+        let filenameSperated = filename.split(".");
         return filenameSperated[filenameSperated.length - 1]; // 返回后缀名
     } else {
-        return 'unknown';
+        return "unknown";
     }
 }
 
@@ -68,34 +68,34 @@ async function tree({dirpath, skip = []}) {
             skip: skip,
             withType: true
         })
-        .then(async (files) => {
-            for (let file of files) {
-                if (skip.indexOf(getSuffixName(file.name)) === -1) {
+            .then(async (files) => {
+                for (let file of files) {
+                    if (skip.indexOf(getSuffixName(file.name)) === -1) {
                     // console.log(file, file.isDirectory());
-                    if (file.isDirectory()) {
-                        dirTree[file.name] = {
-                            children: await tree(
-                                {
-                                    dirpath: path.join(dirpath, file.name),
-                                    skip
-                                }
-                            ),
-                            type: 'dir',
+                        if (file.isDirectory()) {
+                            dirTree[file.name] = {
+                                children: await tree(
+                                    {
+                                        dirpath: path.join(dirpath, file.name),
+                                        skip
+                                    }
+                                ),
+                                type: 'dir',
+                            }
+                        } else {
+                            dirTree[file.name] = {
+                                type: getSuffixName(file.name),
+                                filename: file.name,
+                                path: path.join(dirpath, file.name)
+                            };
                         }
-                    } else {
-                        dirTree[file.name] = {
-                            type: getSuffixName(file.name),
-                            filename: file.name,
-                            path: path.join(dirpath, file.name)
-                        };
                     }
                 }
-            }
-            resolve(dirTree);
-        }).catch(err => {
-            logger.warn(`utils.js - `, dirpath, '错误');
-            reject(err);
-        })
+                resolve(dirTree);
+            }).catch(err => {
+                logger.warn(`utils.js - `, dirpath, "错误");
+                reject(err);
+            })
     })
 }
 

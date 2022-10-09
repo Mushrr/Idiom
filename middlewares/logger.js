@@ -1,7 +1,7 @@
 // logger
 
-const Log4js = require('log4js');
-const { logLevel } = require('../config');
+const Log4js = require("log4js");
+const { logLevel } = require("../config");
 
 
 const logger = Log4js.getLogger(); // logger

@@ -1,7 +1,7 @@
 {
-  "name": "koa-template",
+  "name": "idiom",
   "version": "0.0.1",
-  "description": "koa template",
+  "description": "idiom server",
   "main": "index.js",
   "author": "mushr",
   "license": "MIT",
@@ -10,7 +10,6 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@types/mongodb": "^4.0.7",
     "@types/mysql": "^2.15.21",
     "@types/node": "^18.7.22",
     "koa": "^2.13.4",
@@ -20,6 +19,10 @@
     "log4js": "^6.5.2",
     "mongodb": "^4.10.0",
     "mysql": "^2.18.1",
+    "openapi-types": "^12.0.2",
     "swagger-jsdoc": "^6.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.25.0"
   }
 }

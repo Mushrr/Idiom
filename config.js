@@ -1,18 +1,19 @@
 // config
+const projectName = "Idiom";
 
-const path = require('path');
+const path = require("path");
 
-const host = 'localhost';
+const host = "localhost";
 
 const port = 3000;
 
-const logLevel = 'debug';
+const logLevel = "debug";
 
-const assetsPath = path.join(__dirname, './assets');
+const assetsPath = path.join(__dirname, "./assets");
 
-const swaggerPath = '/swagger';
+const swaggerPath = "/swagger";
 
-const swaggerSpecPath = '/swagger.json';
+const swaggerSpecPath = "/swagger.json";
 
 // mysql config
 
@@ -21,15 +22,17 @@ const mysqlConfig = {
     user: "idiom",
     password: "idiom",
     port: 3306,
-    database: 'idiom'
+    database: "idiom"
 }
 
 // mongodb config
 
-const mongodbUrl = 'mongodb://127.0.0.1:27017'
+const mongodbUrl = "mongodb://127.0.0.1:27017"
 
 module.exports = {
+    projectName,
     logLevel,
+    host,
     port,
     assetsPath,
     swaggerPath,

@@ -1,7 +1,7 @@
 // static middleware
 
-const static = require('koa-static');
-const {assetsPath} = require('../config');
+const static = require("koa-static");
+const {assetsPath} = require("../config");
 
 const staticMiddleware = static(assetsPath, {
     // opt

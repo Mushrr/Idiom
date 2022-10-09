@@ -1,6 +1,6 @@
-const mysql = require('mysql');
-const mongodb = require('mongodb');
-const {mysqlConfig, mongodbUrl} = require('../config');
+const mysql = require("mysql");
+const mongodb = require("mongodb");
+const {mysqlConfig, mongodbUrl} = require("../config");
 const {logger} = require("../middlewares/logger");
 
 class mysqlClient {
@@ -40,7 +40,7 @@ class mongoClient {
     constructor() {
         this.mongodbUrl = mysqlConfig;
         this.mongodbClient = new mongodb.MongoClient(mongodbUrl);
-    };
+    }
     // 列举数据库
     async listDataset() {
         await this.mongodbClient.connect();

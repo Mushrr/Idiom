@@ -1,10 +1,10 @@
 // index route
 
-const Route = require('koa-router');
-const {sql, mongo} = require('../utils/db');
+const Route = require("koa-router");
+const {mongo} = require("../utils/db");
 const indexRoute = new Route();
 
-indexRoute.get('/', async (ctx, next) => {
+indexRoute.get("/", async (ctx, next) => {
 
 
     ctx.body = `

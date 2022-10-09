@@ -1,10 +1,9 @@
-const fs = require('fs');
-const os = require('os');
-const { exec } = require('child_process');
-const path = require('path');
-const { tree, ls, getSuffixName } = require('../utils/utils');
-const { logger } = require('../middlewares/logger');
-const { sql: sqlClient } = require('../utils/db')
+const fs = require("fs");
+const { exec } = require("child_process");
+const path = require("path");
+const { tree, } = require("../utils/utils");
+const { logger } = require("../middlewares/logger");
+const { sql: sqlClient } = require("../utils/db")
 
 /**
  * 
@@ -16,15 +15,16 @@ const { sql: sqlClient } = require('../utils/db')
  */
 function handleSQL(sql) {
     let ans = fs.readFileSync(path.join(__dirname, sql.path), {
-        encoding: 'utf-8'
+        encoding: "utf-8"
     }).toString();
     
-    let sqls = ans.split(';').map(el => el.trim());
+    let sqls = ans.split(";").map(el => el.trim());
     
     for (let sqlData of sqls) {
         console.log(sqlData);
-        if (sqlData !== '') {
+        if (sqlData !== "") {
             sqlClient.query(sqlData).then(ans => {
+                console.log(ans);
             }); // 执行
         }
     }
@@ -54,16 +54,16 @@ function handleRedis() {
 }
 
 function handle(configTree) {
-    for (let [key, value] of Object.entries(configTree)) {
-        if (value.type === 'dir') {
+    for (let value of Object.values(configTree)) {
+        if (value.type === "dir") {
             handle(value.children);
         } else {
             logger.info(`🧊 loading ${value.filename}`)
-            if (value.type === 'sql') {
+            if (value.type === "sql") {
                 handleSQL(value);
-            } else if (value.type === 'mongo') {
+            } else if (value.type === "mongo") {
                 handleMongo(value);
-            } else if (value.type === 'redis') {
+            } else if (value.type === "redis") {
                 handleRedis(value);
             }
             logger.info(`✨ finish loading ${value.filename}`)
@@ -73,7 +73,7 @@ function handle(configTree) {
 
 tree({
     dirpath: "../init",
-    skip: ['md']
+    skip: ["md"]
 }).then(ans => {
     handle(ans);
 })
