@@ -11,4 +11,5 @@ yarn  run init
 yarn start
 ```
 
-* [X] mongodb， mysql client 配置
+##### 组件图一览
+![](https://pic1.imgdb.cn/item/634eacd916f2c2beb136310a.jpg)

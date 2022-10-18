@@ -23,14 +23,14 @@ function getSuffixName(filename) {
  * @param {Array<string>} skip 数组，内部包含需要跳过的类型
  * @returns 返回一个期约
  */
-async function ls({dirpath, skip = [], withType = false}) {
+async function ls({ dirpath, skip = [], withType = false }) {
     return new Promise((resolve, reject) => {
         fs.readdir(
             path.resolve(__dirname, dirpath),
             {
                 withFileTypes: withType
             },
-        ).then( (value) => {
+        ).then((value) => {
             let currentPathFiles = [];
             for (let file of value) {
                 if (skip.indexOf(getSuffixName(file.name ? file.name : file)) === -1) {
@@ -59,7 +59,7 @@ async function ls({dirpath, skip = [], withType = false}) {
  *  }
  * }}
  */
-async function tree({dirpath, skip = []}) {
+async function tree({ dirpath, skip = [] }) {
     // 返回一颗文件树
     let dirTree = {};
     return new Promise((resolve, reject) => {
@@ -71,7 +71,7 @@ async function tree({dirpath, skip = []}) {
             .then(async (files) => {
                 for (let file of files) {
                     if (skip.indexOf(getSuffixName(file.name)) === -1) {
-                    // console.log(file, file.isDirectory());
+                        // console.log(file, file.isDirectory());
                         if (file.isDirectory()) {
                             dirTree[file.name] = {
                                 children: await tree(
@@ -80,7 +80,7 @@ async function tree({dirpath, skip = []}) {
                                         skip
                                     }
                                 ),
-                                type: 'dir',
+                                type: "dir",
                             }
                         } else {
                             dirTree[file.name] = {
@@ -93,7 +93,7 @@ async function tree({dirpath, skip = []}) {
                 }
                 resolve(dirTree);
             }).catch(err => {
-                logger.warn(`utils.js - `, dirpath, "错误");
+                logger.warn(`utils.js - ${dirpath}`, "错误");
                 reject(err);
             })
     })
