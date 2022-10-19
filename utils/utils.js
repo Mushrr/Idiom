@@ -99,6 +99,13 @@ async function tree({ dirpath, skip = [] }) {
     })
 }
 
+function isFunction(param) {
+    return param instanceof Function;
+}
+
+function isObject(param) {
+    return param instanceof Object;
+}
 // console.log(tree({
 //     dirpath: '../init',
 //     skip: [],
@@ -106,5 +113,7 @@ async function tree({ dirpath, skip = [] }) {
 module.exports = {
     getSuffixName,
     ls,
-    tree
+    tree,
+    isFunction,
+    isObject
 }

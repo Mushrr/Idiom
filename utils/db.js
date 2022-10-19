@@ -1,3 +1,6 @@
+// This file has been depratched!
+
+
 const mysql = require("mysql");
 const mongodb = require("mongodb");
 const {mysqlConfig, mongodbUrl} = require("../config");
