@@ -22,7 +22,7 @@ function idiomRMPlugin(core) {
 
         onload() {
             // 挂载之时
-            // 此时
+            // 执行
         },
         beforeExecute(instruction) {
             // 执行之前可以获得指令实体
@@ -31,7 +31,7 @@ function idiomRMPlugin(core) {
         onreturn(data) {
             // 可以获得指令的返回值
             // 数据获取之时
-            // 可以在此处编写代码直接提取数据流种的数据
+            // 可以在此处编写代码直接提取数据流种的数据约定
         },
         onerror(err) {
             // 插件主动执行,
@@ -40,6 +40,4 @@ function idiomRMPlugin(core) {
         }
     }
 }
-
-
 ```

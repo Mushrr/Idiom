@@ -8,7 +8,7 @@
 // 挂载到整个koa上
 const { logger } = require("../../../middlewares/logger");
 const { isFunction, isObject } = require("../../../utils/utils");
-// const DB = require("../db/db");
+const DB = require("../db/db");
 
 
 class IdiomResourceManager {
@@ -43,20 +43,19 @@ class IdiomResourceManager {
     static _dbInitialize() {
         // 未初始化的时候初始化
         // 初始化当前db
-        IdiomResourceManager.core.db = {
-            name: "我是数据库哦"
-        };
+        IdiomResourceManager.core.DB = new DB();
     }
 
     constructor(plugins) {
         if (!IdiomResourceManager.core) {
+            IdiomResourceManager.core = this; // 绑定
             // 开始初始化
             logger.info("开始插件初始化");
-            IdiomResourceManager.core = this; // 绑定
-            IdiomResourceManager._pluginInitialize(plugins);
-            logger.info("插件初始化完毕");
             IdiomResourceManager._dbInitialize(); // 初始化数据库
             logger.info("数据库初始化完毕");
+            logger.info("开始插件初始化");
+            IdiomResourceManager._pluginInitialize(plugins);
+            logger.info("插件初始化完毕");
         } else {
             throw "当前core对象已经存在，请调用IdiomResourceManager.core 获取或者使用 IdiomResourceManager.getInstance()";
         }
@@ -140,56 +139,82 @@ class IdiomResourceManager {
 
 }
 
-// Example
-function useLogger(core) {
-    return {
-        name: "logger",
-        core: core,
+// // Example
+// function useLogger(core) {
+//     return {
+//         name: "logger",
+//         core: core,
 
-        onload() {
-            console.log("插件logger打印了", this.core.plugins[0].name); //
-        },
-        onreturn(data) {
-            logger.info(data);
-        }
-    }
-}
+//         onload() {
+//             console.log("插件logger打印了", this.core.plugins[0].name); //
+//         },
+//         onreturn(data) {
+//             logger.info(data);
+//         }
+//     }
+// }
 
-const showDBinfo = {
-    beforeExecute() {
-        console.log("在我执行之前");
-    },
-    execute: () => {
-        throw "我是个错误";
-    },
-    onreturn(data) {
-        console.log(data); // 这是我的数据
-    },
-    onerror(errr) {
-        logger.error(errr);
-    }
-}
+// const showDBinfo = {
+//     beforeExecute() {
+//         console.log("在我执行之前");
+//     },
+//     execute: () => {
+//         throw "我是个错误";
+//     },
+//     onreturn(data) {
+//         console.log(data); // 这是我的数据
+//     },
+//     onerror(errr) {
+//         logger.error(errr);
+//     }
+// }
 
-const showDb = {
-    beforeExecute() {
-        console.log("在我执行之前");
-    },
-    execute: ({db: {name}}) => {
-        // 解包拿到对应的数据
-        // 嵌套解包
-        return name;
-    },
-    onreturn(data) {
-        console.log(`instruction 发现 ${data.toString()}`); // 这是我的数据
-    },
-    onerror(errr) {
-        logger.error(errr);
-    }
-}
+// const showDb = {
+//     beforeExecute() {
+//         console.log("在我执行之前");
+//     },
+//     execute: ({db: {name}}) => {
+//         // 解包拿到对应的数据
+//         // 嵌套解包
+//         return name;
+//     },
+//     onreturn(data) {
+//         console.log(`instruction 发现 ${data.toString()}`); // 这是我的数据
+//     },
+//     onerror(errr) {
+//         logger.error(errr);
+//     }
+// }
 
-const core = new IdiomResourceManager([useLogger]);
-const newCore = IdiomResourceManager.getInstance();
-newCore.execInstruction(showDBinfo);
-core.execInstruction(showDb);
+// const core = new IdiomResourceManager([useLogger]);
+// const newCore = IdiomResourceManager.getInstance();
+// newCore.execInstruction(showDBinfo);
+// core.execInstruction(showDb);
 
+
+// 数据库资源使用
+
+// function useDBAnsLogger(core) {
+
+
+//     return {
+//         name: "dblogger",
+//         core: core,
+
+//         onreturn(data) {
+//             if (data instanceof Promise) {
+//                 data.then(ans => {
+//                     writeFileSync("cur.log", Buffer.from(JSON.stringify(rawToJSON(ans))));
+//                 })
+//             }
+//         }
+//     }
+// }
+
+// const core = new IdiomResourceManager([useDBAnsLogger])
+// core.execInstruction({
+//     execute: () => {
+//         return core.DB.mysqlClient.query("show tables;");
+//     }
+// })
 module.exports = IdiomResourceManager; // 导出IdiomResourceManager类
