@@ -140,7 +140,6 @@ function dataTransform(data) {
     } else {
         changeAns(data.toString(), "string");
     }
-    console.log(ans);
 
     return ans;
 }
@@ -153,6 +152,18 @@ function initOptionsIfNotExists(obj, initParamters) {
     }
     return obj;
 }
+
+function randomString(length) {
+    const head = Math.floor(length / 8);
+    const rest = length % 8;
+    let basic = "";
+    for (let i = 0; i < head; i ++) {
+        basic += Math.random().toString(32).slice(2, 10);
+    }
+    basic += Math.random().toString(32).slice(2,2+rest);
+    return basic;
+}
+
 
 /**
  * 获取对象的keys
@@ -260,5 +271,7 @@ module.exports = {
     getObjectKeys,
     getObjectValues,
     getObjectPair,
-    rawToJSON
+    rawToJSON,
+    dataTransform,
+    randomString
 }

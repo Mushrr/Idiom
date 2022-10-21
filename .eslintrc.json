@@ -16,6 +16,7 @@
         ]
     },
     "globals": {
-        "__dirname": "readonly"
+        "__dirname": "readonly",
+        "process": "writable"
     }
 }

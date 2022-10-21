@@ -10,12 +10,15 @@ const {port, projectName} = require("./config");
 // router
 const {router} = require("./router");
 const { networkInterfaces } = require("os");
+const IdiomResourceManager = require("./modules/sourcemanager/core/core");
+const coreLogger = require("./modules/sourcemanager/core/plugins/core-logger");
 
 const app = new Koa();
 
 // log
 app.use(loggerMiddleware);
 app.use(staticMiddleware);
+app.use(IdiomResourceManager.getResourceManagerCoreMiddleware([coreLogger]));
 app.use(router.routes()).use(router.allowedMethods());
 
 // swagger

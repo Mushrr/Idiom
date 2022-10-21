@@ -13,12 +13,12 @@ const DB = require("../db/db");
 
 class IdiomResourceManager {
     static core = null;
-    static getInstance() {
-        if (IdiomResourceManager.core) {
-            return IdiomResourceManager.core;
-        } else {
-            IdiomResourceManager.core = new IdiomResourceManager(); // 初始化单例
+    static getInstance(plugins) {
+        if (!IdiomResourceManager.core) {
+            IdiomResourceManager.core = new IdiomResourceManager(plugins); // 初始化单例
         }
+
+        return IdiomResourceManager.core;
     }
 
     static _pluginInitialize(plugins) {
@@ -46,6 +46,18 @@ class IdiomResourceManager {
         IdiomResourceManager.core.DB = new DB();
     }
 
+    // plugins 插件们
+    static getResourceManagerCoreMiddleware(plugins) {
+        if (process.env.NODE_ENV === "development") {
+            console.log("resource manager 挂载上了");
+        }
+
+        return async (ctx, next) => {
+            ctx.resourceManager = IdiomResourceManager.getInstance(plugins);
+            await next(); // 挂载
+        }
+    }
+
     constructor(plugins) {
         if (!IdiomResourceManager.core) {
             IdiomResourceManager.core = this; // 绑定
@@ -57,7 +69,7 @@ class IdiomResourceManager {
             IdiomResourceManager._pluginInitialize(plugins);
             logger.info("插件初始化完毕");
         } else {
-            throw "当前core对象已经存在，请调用IdiomResourceManager.core 获取或者使用 IdiomResourceManager.getInstance()";
+            // throw "当前core对象已经存在，请调用IdiomResourceManager.core 获取或者使用 IdiomResourceManager.getInstance()";
         }
     }
 
@@ -103,7 +115,7 @@ class IdiomResourceManager {
                 // 插件监听到返回
                 for (let plugin of this.plugins) {
                     if (plugin.onreturn) {
-                        plugin.onreturn(outPut);
+                        plugin.onreturn(outPut, hookInstruction);
                     }
                 }
 
@@ -121,9 +133,7 @@ class IdiomResourceManager {
                 }
             }
 
-            if (outPut) {
-                return outPut; // 返回执行的返回值
-            }
+            return outPut; // 返回执行的返回值
         } catch (e) {
             for (let plugin of this.plugins) {
                 if (plugin.onerror) {
@@ -194,8 +204,6 @@ class IdiomResourceManager {
 // 数据库资源使用
 
 // function useDBAnsLogger(core) {
-
-
 //     return {
 //         name: "dblogger",
 //         core: core,
@@ -216,4 +224,8 @@ class IdiomResourceManager {
 //         return core.DB.mysqlClient.query("show tables;");
 //     }
 // })
+
+
+
+
 module.exports = IdiomResourceManager; // 导出IdiomResourceManager类
