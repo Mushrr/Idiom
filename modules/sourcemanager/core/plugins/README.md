@@ -41,3 +41,48 @@ function idiomRMPlugin(core) {
     }
 }
 ```
+
+* 与插件对应的一个概念是指令
+* 指令也有如上的生存周期，只是指令只会执行一次
+* 并且其对象会完全注入到插件中
+
+
+```javascript
+// 一般来说指令就是对象
+const instruction = {
+    beforeExcute() {
+        // 在执行之前
+    }
+
+    excute(core) {
+        // 指令运行的时候
+        // 此时解包可以拿到core内部的数据
+    }
+
+    onreturn() {
+        // 指令返回的时候
+    }
+
+    onerror() {
+        // 指令执行出错的时候
+    }
+}
+
+
+// 也可以制作成一个函数，以实现动态指令
+// 以及制作成一个SQL函数，传入数据，动态的修改SQL，然后生成instruction对象执行
+function logger(level) {
+    return {
+        excute(core) {
+            if (level === "info") {
+                console.log(core);
+            } else if (level === "warn") {
+                console.warn(core);
+            } else {
+                console.error(core);
+            }
+        }
+    }
+}
+
+```

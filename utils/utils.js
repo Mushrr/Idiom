@@ -110,10 +110,155 @@ function isObject(param) {
 //     dirpath: '../init',
 //     skip: [],
 // }).then(ans => {console.log(JSON.parse(JSON.stringify(ans)))}));
+
+function isNumber(data) {
+    return !isNaN(Number(data));
+}
+
+
+/**
+ * @param {string | boolean | object | array} data
+ */
+function dataTransform(data) {
+    let ans = {
+        data: "",
+        type: ""
+    };
+    const changeAns = (data, type) => {
+        ans.data = data;
+        ans.type = type;
+    }
+
+    if (data instanceof Array) {
+        changeAns(JSON.stringify(data), "array");
+    } else if (data instanceof Object) {
+        changeAns(JSON.stringify(data), "object");
+    } else if (isNumber(data)) {
+        changeAns(Number(data), "number");
+    } else if (data instanceof Boolean) {
+        changeAns(data.toString(), "boolean");
+    } else {
+        changeAns(data.toString(), "string");
+    }
+    console.log(ans);
+
+    return ans;
+}
+
+function initOptionsIfNotExists(obj, initParamters) {
+    for (let [key, val] of Object.entries(initParamters)) {
+        if (!obj[key]) {
+            obj[key] = val;
+        }
+    }
+    return obj;
+}
+
+/**
+ * 获取对象的keys
+ * @param {object} obj 
+ * @param {{
+ *  withTail: boolean,
+ *  separater: string
+ * }} options
+ * @return {string}
+ */
+function getObjectKeys(obj, options = { withTail: false, separater: "," }) {
+    let keys = "";
+    initOptionsIfNotExists(options, { withTail: false, separater: "," });
+    for (let key of Object.keys(obj)) {
+        keys += `${key}${options.separater}`;
+    }
+
+    if (!options.withTail) {
+        keys = keys.slice(0, -options.separater.length);
+    }
+    return keys;
+}
+
+/**
+ * 获取对象的keys
+ * @param {object} obj;
+ * @param {{
+ *  withTail: boolean,
+ *  separater: string,
+ *  strictTransform: boolean, // 是否强制转换类型
+ * }} options
+ * @return {string}
+ */
+function getObjectValues(obj, options = { withTail: false, separater: ",", strictTransform: true }) {
+    let values = "";
+    initOptionsIfNotExists(options, { withTail: false, separater: ",", strictTransform: true });
+    for (let value of Object.values(obj)) {
+        if (options.strictTransform) {
+            let data = dataTransform(value);
+            if (data.type === "number") {
+                values += `${data.data}${options.separater}`
+            } else {
+                values += `'${data.data}'${options.separater}`
+            }
+        } else {
+            values += `'${value}'${options.separater}`;
+        }
+    }
+    if (!options.withTail) {
+        values = values.slice(0, -options.separater.length);
+    }
+    return values;
+}
+
+
+/**
+ * 
+ * @param {object} obj 
+ * @param {{
+ *  withTail: boolean,
+ *  connectFlag: string 
+ *  separater: string
+ * }} options 
+ */
+function getObjectPair(obj, options = {withTail: false, connectFlag: "=", separater: ",", strictTransform: true}) {
+    let ans = "";
+    initOptionsIfNotExists(options, { withTail: false, connectFlag: "=", separater: ",", strictTransform: true });
+    for (let [key, value] of Object.entries(obj)) {
+        ans += key + options.connectFlag;
+        if (options.strictTransform) {
+            let data = dataTransform(value);
+            if (data.type === "number") {
+                ans += `${data.data}${options.separater}`;
+            } else {
+                ans += `'${data.data}'${options.separater}`;
+            }
+        } else {
+            ans += `'${value}'${options.separater}`;
+        }
+    }
+
+    if (!options.withTail) {
+        ans = ans.slice(0, -options.separater.length);
+    }
+
+    return ans;
+}
+
+
+/**
+ * 
+ * @param {any} rawData 
+ */
+function rawToJSON(rawData) {
+    return JSON.parse(JSON.stringify(rawData));
+}
+
+
 module.exports = {
     getSuffixName,
     ls,
     tree,
     isFunction,
-    isObject
+    isObject,
+    getObjectKeys,
+    getObjectValues,
+    getObjectPair,
+    rawToJSON
 }

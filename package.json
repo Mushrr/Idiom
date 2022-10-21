@@ -7,11 +7,13 @@
   "license": "MIT",
   "scripts": {
     "init": "node ./init/init.js",
-    "start": "node index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development node index.js"
   },
   "dependencies": {
     "@types/mysql": "^2.15.21",
     "@types/node": "^18.7.22",
+    "cross-env": "^7.0.3",
     "koa": "^2.13.4",
     "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
