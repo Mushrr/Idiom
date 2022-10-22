@@ -5,8 +5,6 @@ const { mongodbUrl } = require("../../../config");
 const { initOptionsIfNotExists, randomString } = require("../../../utils/utils");
 
 function mongoPluginTest() {
-
-
     return {
         name: "add",
         execute: async (mongoClient) => {
@@ -17,7 +15,7 @@ function mongoPluginTest() {
 
 class MongoClient {
 
-    static _mongodbPluginLoad(instance, plugins) {
+    static _mongoPluginLoad(instance, plugins) {
         for (const plugin of plugins) {
             instance.registryPlugin(plugin.name, plugin.execute); // 快速导入插件
             instance.pluginNums += 1;
@@ -46,7 +44,7 @@ class MongoClient {
             this.db = this.client.db("idiom"); // 数据库
             this.pluginNums = 0;
             plugins.push(mongoPluginTest());
-            MongoClient._mongodbPluginLoad(this, plugins); // 初始化
+            MongoClient._mongoPluginLoad(this, plugins); // 初始化
             logger.info(`✨共装载了${this.pluginNums}个Mongo个插件`);
         } catch (e) {
             logger.error(e);
@@ -161,7 +159,7 @@ class MongoClient {
         if (!this[name] || options.force) {
             this[name] = (...args) => { return func(this, ...args) };
         } else {
-            logger.warn(`您定义的mongodb插件有误，名为${name}的插件有重复！, 如果需要重新定义请加上force: true`);
+            logger.warn(`您定义的mongodb插件有误,名为${name}的插件有重复！, 如果需要重新定义请加上force: true`);
             throw "定义插件出现重复！！";
         }
     }

@@ -15,13 +15,53 @@
 
 * Mysql 数据库插件编写
 ```javascript
-// 建议使用function () {} 函数，可以直接在函数内部使用this获得访问权限，否则需要手动加入
-mysqlClient.registry('name', function () {
-    //  
+// 在初始化的时候加载插件
+function mysqlPlugin() {
+
+    return {
+        name: "add",
+        execute: async (db) => {
+            const randName = randomString(10);
+            return db.query(`insert into student values('${randName}', 19)`);
+        }
+    }
+}
+
+
+// 如果你实在创建之后使用
+// (db) => {} 
+mysqlClient.registry('name', (db, ...args) => {
+    //  注意第一个一定是db获取当前数据库实例
 })
 
 // 调用  
 mysqlClient.name(paramters); // 即可调用
+
+```
+
+* Mongodb 数据库插件编写
+```javascript
+// 如果是在初始化阶段创建的话需要使用对象语法
+function mongoPlugin() {
+    // your clusive package
+    return {
+        name: "add",
+        execute: async (mongoClient, ...args) => {
+            return mongoClient.insert("mongotest", {name: randomString(10), age: Math.floor(Math.random() * 10)});
+        }
+    }
+}
+// 使用
+core.DB.mongoClient.add(...args); // 直接在mongoClient 对象上调用
+
+
+// 如果是在创建之后
+core.DB.mongoClient.registryPlugin("add", async (db, ...args) => {
+    // 插件相关内容;
+})
+
+// 使用
+core.DB.mongoClient.add(...args); //直接使用
 
 ```
 
