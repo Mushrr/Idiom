@@ -4,8 +4,16 @@
 const MysqlClient = require("./mysql");
 
 class DB {
+    /**
+     * 
+     * @param {Array<func> | object} plugins 
+     */
+    static _mysqlPluginLoad(plugins) {
+        
+    }
     constructor() {
         this.mysqlClient = new MysqlClient();
+
     }
 }
 

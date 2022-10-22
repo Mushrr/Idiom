@@ -2,7 +2,7 @@
 
 const Route = require("koa-router");
 const {mongo} = require("../utils/db");
-const { randomString } = require("../utils/utils");
+const { randomString, rawToJSON } = require("../utils/utils");
 const indexRoute = new Route();
 
 indexRoute.get("/", async (ctx, next) => {
@@ -18,8 +18,13 @@ indexRoute.get("/", async (ctx, next) => {
             return core.DB.mysqlClient.query("show databases;");
         }
     }
-    let ans = await ctx.resourceManager.execInstruction(instruction);
-    ctx.body = ans;
+    // let ans = await ctx.resourceManager.execInstruction(instruction);
+
+    // ctx.resourceManager.DB.mysqlClient.registryPlugin("showdb",async function() {
+    //     // console.log(this.query);
+    //     return rawToJSON(await this.query("show databases;"));
+    // })
+    ctx.body = await ctx.resourceManager.DB.mysqlClient.showdb();
     await next();
 })
 

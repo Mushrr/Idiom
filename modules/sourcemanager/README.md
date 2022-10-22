@@ -13,6 +13,18 @@
 * Mongodb: 文档数据（存放课程，游戏，成语信息等内容，也用来做数据仓库备份） 
 * Mysql: 关系型数据
 
+* Mysql 数据库插件编写
+```javascript
+// 建议使用function () {} 函数，可以直接在函数内部使用this获得访问权限，否则需要手动加入
+mysqlClient.registry('name', function () {
+    //  
+})
+
+// 调用  
+mysqlClient.name(paramters); // 即可调用
+
+```
+
 ##### 分析
 
 > 核心core是一个单例对象，如果没有创建，那么会挂载上一个各种数据库的虚拟化的对象，以方便core直接对数据库进行操作

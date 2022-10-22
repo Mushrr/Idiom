@@ -79,6 +79,19 @@ class MysqlClient {
         const deleteSQL = `delete from ${table} where ${uniqueQuery}`;
         return this.query(deleteSQL);
     }
+
+    /**
+     * 
+     * @param {string} name 
+     * @param {(..args: any[] => any) => } func 
+     */
+    registryPlugin(name, func, force = false) {
+        if (!this[name] || force) {
+            this[name] = func;
+        } else {
+            logger.warn(`当前 插件名${name} 下已经有一个函数了，请添加force=true 以强制添加`);
+        }
+    }
 }
 
 // 测试
