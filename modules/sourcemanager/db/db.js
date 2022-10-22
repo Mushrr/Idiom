@@ -8,12 +8,14 @@ class DB {
      * 
      * @param {Array<func> | object} plugins 
      */
-    static _mysqlPluginLoad(plugins) {
-        
+    static _mysqlPluginLoad(instance, plugins) {
+        for (const plugin in plugins) {
+            instance.registryPlugin(plugin.name, plugin.action);
+        }
     }
-    constructor() {
+    constructor(mySqlPlugins = []) {
         this.mysqlClient = new MysqlClient();
-
+        DB._mysqlPluginLoad(this.mysqlClient, mySqlPlugins);
     }
 }
 

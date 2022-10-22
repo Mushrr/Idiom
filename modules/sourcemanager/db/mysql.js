@@ -74,6 +74,12 @@ class MysqlClient {
         return this.query(updateSql);
     }
 
+    /**
+     * 删除表中的数据
+     * @param {string} table 
+     * @param {object} uniquekey 
+     * @returns values
+     */
     del(table, uniquekey) {
         const uniqueQuery = getObjectPair(uniquekey, { separater: " and " });
         const deleteSQL = `delete from ${table} where ${uniqueQuery}`;
@@ -81,15 +87,16 @@ class MysqlClient {
     }
 
     /**
-     * 
+     * 注册一个插件，可以直接通过db调用
      * @param {string} name 
      * @param {(..args: any[] => any) => } func 
      */
     registryPlugin(name, func, force = false) {
         if (!this[name] || force) {
-            this[name] = func;
+            // 建议使用function() 否则无法使用this
+            this[name] = (...args) => { return func(this, ...args) };
         } else {
-            logger.warn(`当前 插件名${name} 下已经有一个函数了，请添加force=true 以强制添加`);
+            logger.warn(`当前 插件名${name} 下已经有一个函数了, 如果一定需要添加, 请添加force=true 以强制添加`);
         }
     }
 }

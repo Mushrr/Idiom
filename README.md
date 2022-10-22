@@ -32,6 +32,25 @@ route.get("/", async (ctx, next) => {
     ctx.body = ans;
     await next();
 })
+```
 
+##### 如何在编写数据库插件
+```javascript
+// 有些时候，写数据库操作变的非常繁琐，我们这里采用插件的方式把各种操作隔离开
+// 需要的时候直接调用即可
+// 可以在一定程度上提升开发的体验
+
+// 数据库的插件通过如下方式创建
+
+const IdiomResourceManager = requrie('../core.js');
+
+const core = IdiomResourceManager.getInstance();
+
+core.DB.mysqlClient.registryPlugin('getStudentInfo', (db, ...args) {
+    // db表示当前数据库实例，请注意，第一个一定要写数据库，否则会出现问题
+    // 其余的为当前函数的参数，在下次调用的时候是不需要写db的只需要指出后面的参数即可
+    let sql = `select * from student where uniqueid = '${uniqueid}'`;
+    return this.query
+})
 
 ```
