@@ -3,31 +3,35 @@
 const Route = require("koa-router");
 const { logger } = require("../middlewares/logger");
 const {mongo} = require("../utils/db");
-const { randomString, rawToJSON } = require("../utils/utils");
+const { randomString, rawToJSON, dataTransform } = require("../utils/utils");
 const indexRoute = new Route();
 
 indexRoute.get("/", async (ctx, next) => {
     
-    // 编写一个指令
-    // 执行这个指令
-    // logger 会把一些结果自动记录返回
     const instruction = {
+        
         "core-logger": {
-            skip: true 
+            skip: false
         },
-        execute(core) {
-            return core.DB.mysqlClient.query("show databases;");
+        
+        execute: async (core) => {
+            // return core.DB.mongoClient.insert("mongotest", {
+            //     name: randomString(10),
+            //     age: Math.floor(Math.random() * 10)
+            // }, { insertMany: false });
+            // 查
+            const ans = await core.DB.mongoClient.find("mongotest", {}, { iterator: false });
+            // 删
+            // const ans = await core.DB.mongoClient.del("mongotest", {name: "bbfink4lk8"});
+            // 改
+            // const ans = await core.DB.mongoClient.update("mongotest", {name: "mf1ctbs440"}, {"$set": { age: 1000 }});
+            return ans;
         }
     }
-    let ans = await ctx.resourceManager.execInstruction(instruction);
+    
+    // 插件
+    ctx.body = await ctx.resourceManager.DB.mongoClient.add();
 
-    ctx.resourceManager.DB.mysqlClient.registryPlugin("showdb", async (db, ID, Other) => {
-        // console.log(this.query);
-        logger.info(ID, Other)
-        return rawToJSON(await db.query("show tables;"));
-        
-    })
-    ctx.body = await ctx.resourceManager.DB.mysqlClient.showdb("Cookie");
     await next();
 })
 

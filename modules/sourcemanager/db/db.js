@@ -2,20 +2,12 @@
 // 可以通过core直接调用
 
 const MysqlClient = require("./mysql");
+const MongoClient = require("./mongodb");
 
 class DB {
-    /**
-     * 
-     * @param {Array<func> | object} plugins 
-     */
-    static _mysqlPluginLoad(instance, plugins) {
-        for (const plugin in plugins) {
-            instance.registryPlugin(plugin.name, plugin.action);
-        }
-    }
-    constructor(mySqlPlugins = []) {
-        this.mysqlClient = new MysqlClient();
-        DB._mysqlPluginLoad(this.mysqlClient, mySqlPlugins);
+    constructor(mySqlPlugins = [], mongoPlugins = []) {
+        this.mysqlClient = new MysqlClient(mySqlPlugins);
+        this.mongoClient = new MongoClient(mongoPlugins);
     }
 }
 

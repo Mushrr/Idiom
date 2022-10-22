@@ -146,7 +146,7 @@ function dataTransform(data) {
 
 function initOptionsIfNotExists(obj, initParamters) {
     for (let [key, val] of Object.entries(initParamters)) {
-        if (!obj[key]) {
+        if (obj[key] === undefined) {
             obj[key] = val;
         }
     }
@@ -220,7 +220,7 @@ function getObjectValues(obj, options = { withTail: false, separater: ",", stric
 
 
 /**
- * 
+ * 解析字符串对
  * @param {object} obj 
  * @param {{
  *  withTail: boolean,
@@ -228,6 +228,7 @@ function getObjectValues(obj, options = { withTail: false, separater: ",", stric
  *  separater: string
  * }} options 
  */
+
 function getObjectPair(obj, options = {withTail: false, connectFlag: "=", separater: ",", strictTransform: true}) {
     let ans = "";
     initOptionsIfNotExists(options, { withTail: false, connectFlag: "=", separater: ",", strictTransform: true });
@@ -273,5 +274,6 @@ module.exports = {
     getObjectPair,
     rawToJSON,
     dataTransform,
-    randomString
+    randomString,
+    initOptionsIfNotExists
 }

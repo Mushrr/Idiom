@@ -5,9 +5,20 @@ const { getObjectKeys, getObjectValues, getObjectPair } = require("../../../util
 const { logger } = require("../../../middlewares/logger");
 
 class MysqlClient {
-    constructor() {
+
+    static _mysqlPluginLoad(instance, plugins) {
+        for (const plugin in plugins) {
+            instance.registryPlugin(plugin.name, plugin.execute);
+            instance.pluginNums += 1;
+        }
+    }
+
+    constructor(plugins = []) {
         this.config = mysqlConfig;
         this.connectionPool = mysql.createPool(mysqlConfig);
+        this.pluginNums = 0;
+        MysqlClient._mysqlPluginLoad(this, plugins);
+        logger.info(`✨共装载了${this.pluginNums}个Mysql插件`);
     }
 
     /**
