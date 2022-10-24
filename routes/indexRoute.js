@@ -9,29 +9,26 @@ const indexRoute = new Route();
 indexRoute.get("/", async (ctx, next) => {
     
     const instruction = {
-        
         "core-logger": {
             skip: false
         },
         
         execute: async (core) => {
-            // return core.DB.mongoClient.insert("mongotest", {
-            //     name: randomString(10),
-            //     age: Math.floor(Math.random() * 10)
-            // }, { insertMany: false });
-            // 查
-            const ans = await core.DB.mongoClient.find("mongotest", {}, { iterator: false });
-            // 删
-            // const ans = await core.DB.mongoClient.del("mongotest", {name: "bbfink4lk8"});
-            // 改
-            // const ans = await core.DB.mongoClient.update("mongotest", {name: "mf1ctbs440"}, {"$set": { age: 1000 }});
-            return ans;
+            return core.DB.redisClient.db.get("idiom");
         }
     }
     
-    // 插件
-    ctx.body = await ctx.resourceManager.DB.mongoClient.add();
+    // 给redis 注册一个插件
+    const { redisClient: redis } = ctx.resourceManager.DB;
+    
+    redis.registryPlugin("add", async (redisC, key, value) => {
+        return redisC.db.set(key, value);
+    })
+    redis.registryPlugin("get", async (redisC, key) => {
+        return redisC.db.get(key);
+    })
 
+    ctx.body = `${await redis.get("tea")}`; // OK了
     await next();
 })
 

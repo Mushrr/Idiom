@@ -1,10 +1,9 @@
 const { logger } = require("../../../../middlewares/logger")
-const { dataTransform } = require('../../../../utils/utils');
+const { dataTransform } = require("../../../../utils/utils");
 
 
 function coreLogger(core) {
-
-
+    
     return {
         name: "core-logger",
         core: core,

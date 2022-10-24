@@ -5,20 +5,24 @@ const {staticMiddleware} = require("./middlewares/static");
 const {koaSwagger} = require("koa2-swagger-ui");
 const {swaggerMiddleware} = require("./middlewares/swagger");
 // config
-const {port, projectName} = require("./config");
+const {port, projectName, idiomRMConfig} = require("./config");
 
 // router
 const {router} = require("./router");
 const { networkInterfaces } = require("os");
+
+// resourcemanager 挂载
 const IdiomResourceManager = require("./modules/sourcemanager/core/core");
-const coreLogger = require("./modules/sourcemanager/core/plugins/core-logger");
 
 const app = new Koa();
 
 // log
 app.use(loggerMiddleware);
 app.use(staticMiddleware);
-app.use(IdiomResourceManager.getResourceManagerCoreMiddleware([coreLogger]));
+// 获取resourceManagerCore的Middleware, 插件导入;
+app.use(IdiomResourceManager.getResourceManagerCoreMiddleware(
+    idiomRMConfig // idiom resource manager 的插件
+));
 app.use(router.routes()).use(router.allowedMethods());
 
 // swagger

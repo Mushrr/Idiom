@@ -1,3 +1,5 @@
+const coreLogger = require("./modules/sourcemanager/core/plugins/core-logger")
+
 // config
 const projectName = "Idiom";
 
@@ -29,6 +31,18 @@ const mysqlConfig = {
 
 const mongodbUrl = "mongodb://127.0.0.1:27017"
 
+const redisConfig = {
+    port: 6379,
+    host: "172.17.218.104",
+}
+
+// idiom resource manager config 
+const idiomRMConfig = {
+    resourceManagerPlugin: [
+        coreLogger,
+    ]
+}
+
 module.exports = {
     projectName,
     logLevel,
@@ -38,5 +52,7 @@ module.exports = {
     swaggerPath,
     swaggerSpecPath,
     mysqlConfig,
-    mongodbUrl
+    mongodbUrl,
+    redisConfig,
+    idiomRMConfig
 }

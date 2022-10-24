@@ -2,16 +2,17 @@
 const { logger } = require("../../../middlewares/logger");
 const { MongoClient: Mongo } = require("mongodb");
 const { mongodbUrl } = require("../../../config");
-const { initOptionsIfNotExists, randomString } = require("../../../utils/utils");
+const { initOptionsIfNotExists } = require("../../../utils/utils");
 
-function mongoPluginTest() {
-    return {
-        name: "add",
-        execute: async (mongoClient) => {
-            return mongoClient.insert("mongotest", {name: randomString(10), age: Math.floor(Math.random() * 10)});
-        }
-    }
-}
+// mongo 插件实例
+// function mongoPluginTest() {
+//     return {
+//         name: "add",
+//         execute: async (mongoClient) => {
+//             return mongoClient.insert("mongotest", {name: randomString(10), age: Math.floor(Math.random() * 10)});
+//         }
+//     }
+// }
 
 class MongoClient {
 
@@ -43,7 +44,6 @@ class MongoClient {
             this.client = new Mongo(mongodbUrl); // 初始化连接
             this.db = this.client.db("idiom"); // 数据库
             this.pluginNums = 0;
-            plugins.push(mongoPluginTest());
             MongoClient._mongoPluginLoad(this, plugins); // 初始化
             logger.info(`✨共装载了${this.pluginNums}个Mongo个插件`);
         } catch (e) {

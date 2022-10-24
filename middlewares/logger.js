@@ -6,6 +6,23 @@ const { logLevel } = require("../config");
 
 const logger = Log4js.getLogger(); // logger
 logger.level = logLevel;
+logger.dev = {
+    info(...message) {
+        if (process.env.NODE_ENV === "development") {
+            logger.info(message);
+        }
+    },
+    warn(...message) {
+        if (process.env.NODE_ENV === "development") {
+            logger.warn(message);
+        }
+    },
+    error(...message) {
+        if (process.env.NODE_ENV === "development") {
+            logger.error(message);
+        }
+    }
+}
 
 async function loggerMiddleware(ctx, next) {
     // logger info

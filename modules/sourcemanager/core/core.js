@@ -7,7 +7,7 @@
 // 返回资管原理核心
 // 挂载到整个koa上
 const { logger } = require("../../../middlewares/logger");
-const { isFunction, isObject } = require("../../../utils/utils");
+const { isFunction, isObject, initOptionsIfNotExists } = require("../../../utils/utils");
 const DB = require("../db/db");
 
 
@@ -58,15 +58,26 @@ class IdiomResourceManager {
         }
     }
 
-    constructor(plugins) {
+    constructor(config = { resourceManagerPlugin: [], mysqlPlugin: [], mongoPlugin: [], redisPlugin: [] }) {
+        // 如果某些参数未定义，则附上初始值
+        initOptionsIfNotExists(config, { 
+            resourceManagerPlugin: [], 
+            mysqlPlugin: [], 
+            mongoPlugin: [], 
+            redisPlugin: [] 
+        });
         if (!IdiomResourceManager.core) {
             IdiomResourceManager.core = this; // 绑定
             // 开始初始化
             logger.info("开始插件初始化");
-            IdiomResourceManager._dbInitialize(); // 初始化数据库
+            IdiomResourceManager._dbInitialize(
+                config.mysqlPlugin, 
+                config.mongoPlugin, 
+                config.redisPlugin
+            ); // 初始化数据库
             logger.info("数据库初始化完毕");
             logger.info("开始插件初始化");
-            IdiomResourceManager._pluginInitialize(plugins);
+            IdiomResourceManager._pluginInitialize(config.resourceManagerPlugin);
             logger.info("插件初始化完毕");
         } else {
             // throw "当前core对象已经存在，请调用IdiomResourceManager.core 获取或者使用 IdiomResourceManager.getInstance()";

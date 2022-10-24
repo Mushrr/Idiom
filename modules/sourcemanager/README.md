@@ -65,6 +65,37 @@ core.DB.mongoClient.add(...args); //直接使用
 
 ```
 
+* redis 插件编写
+```javascript
+// 在创建的时候写插件，插件的格式与上面mysql，mongo格式一致
+// 注意 redisClient.redis 为真实的redis对象，可以在这上面执行redis操作
+
+
+// 编写使用redis的插件
+const instruction = {
+    "core-logger": {
+        skip: false
+    },
+    
+    execute: async (core) => {
+        return core.DB.redisClient.db.get("idiom");
+    }
+}
+
+// 手动注册一个插件
+const { redisClient: redis } = ctx.resourceManager.DB;
+
+redis.registryPlugin("add", async (redisC, key, value) => {
+    return redisC.db.set(key, value);
+})
+redis.registryPlugin("get", async (redisC, key) => {
+    return redisC.db.get(key);
+})
+
+// 通过redis.name()直接调用，其返回值都会顺便返回的。
+ctx.body = `${await redis.get("tea")}`; // OK了
+```
+
 ##### 分析
 
 > 核心core是一个单例对象，如果没有创建，那么会挂载上一个各种数据库的虚拟化的对象，以方便core直接对数据库进行操作
