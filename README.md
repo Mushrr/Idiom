@@ -12,7 +12,7 @@ yarn start
 ```
 
 ##### 组件图一览
-![](https://pic1.imgdb.cn/item/634eacd916f2c2beb136310a.jpg)
+![](./screenshots/components.jpg)
 
 ##### 如何在接口中访问数据库，等等其他资源
 ```javascript
