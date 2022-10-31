@@ -1,0 +1,58 @@
+version: "3"
+services:
+  idiom:
+    container_name: idiom-server
+    build: .
+    # image: sirly/idiom:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - mongodb
+      - mysql
+
+  redis:
+    container_name: idiom-redis
+    image: redis:alpine
+    restart: always
+    volumes:
+      - ./redis/config:/etc/redis
+      - ./redis/data:/data
+      - ./redis/logs:/logs
+    # command: /etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "PING" ]
+      start_period: 10s
+      interval: 5s
+      timeout: 1s
+
+  mongodb:
+    container_name: idiom-mongo
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo/data/:/data/db
+
+  mysql:
+    container_name: idiom-mysql
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    command: 
+      --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: idiom
+      MYSQL_USER: idiom
+      MYSQL_PASSWORD: idiom
+      MYSQL_ROOT_PASSWORD: kqnmUcWD94FbHTeNwWbo
+  
+
+  
