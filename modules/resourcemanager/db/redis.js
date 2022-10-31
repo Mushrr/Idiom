@@ -18,6 +18,7 @@ class RedisClient {
             logger.error("发现 redis的plugins 不可迭代!!!")
         }
     }
+    
     constructor(plugins = []) {
         try {
             this.db = new Redis(redisConfig);

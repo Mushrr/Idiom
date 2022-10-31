@@ -52,5 +52,4 @@ core.DB.mysqlClient.registryPlugin('getStudentInfo', (db, ...args) {
     let sql = `select * from student where uniqueid = '${uniqueid}'`;
     return this.query
 })
-
 ```

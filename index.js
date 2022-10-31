@@ -12,7 +12,7 @@ const {router} = require("./router");
 const { networkInterfaces } = require("os");
 
 // resourcemanager 挂载
-const IdiomResourceManager = require("./modules/sourcemanager/core/core");
+const IdiomResourceManager = require("./modules/resourcemanager/core/core");
 
 const app = new Koa();
 

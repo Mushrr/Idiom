@@ -13,9 +13,9 @@ const DB = require("../db/db");
 
 class IdiomResourceManager {
     static core = null;
-    static getInstance(plugins) {
+    static getInstance() {
         if (!IdiomResourceManager.core) {
-            IdiomResourceManager.core = new IdiomResourceManager(plugins); // 初始化单例
+            IdiomResourceManager.core = new IdiomResourceManager(); // 初始化单例
         }
 
         return IdiomResourceManager.core;

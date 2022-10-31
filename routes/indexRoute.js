@@ -19,7 +19,8 @@ indexRoute.get("/", async (ctx, next) => {
     }
     
     // 给redis 注册一个插件
-    const { redisClient: redis } = ctx.resourceManager.DB;
+    const { redisClient: redis, mysqlClient: mysql } = ctx.resourceManager.DB;
+    
     redis.registryPlugin("add", async (redisC, key, value) => {
         return redisC.db.set(key, value);
     })
@@ -27,7 +28,8 @@ indexRoute.get("/", async (ctx, next) => {
         return redisC.db.get(key);
     })
     await redis.add("tea", "红茶");
-    ctx.body = `${await redis.get("tea")}`; // OK了
+    console.log(await mysql.query("show tables"));
+    ctx.body = `${await redis.get("tea") }`; // OK了
     await next();
 })
 

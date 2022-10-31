@@ -1,4 +1,4 @@
-const coreLogger = require("./modules/sourcemanager/core/plugins/core-logger")
+const coreLogger = require("./modules/resourcemanager/core/plugins/core-logger")
 
 // config
 const projectName = "Idiom";
@@ -23,8 +23,8 @@ const mysqlConfig = {
     host: "localhost",
     user: "idiom",
     password: "idiom",
-    port: 3306,
-    database: "idiom"
+    database: "idiom",
+    port: 3306
 }
 
 // mongodb config

@@ -19,7 +19,6 @@ function handleSQL(sql) {
     }).toString();
     
     let sqls = ans.split(";").map(el => el.trim());
-
     for (let sqlData of sqls) {
         if (sqlData !== "") {
             return mysqlClient.query(sqlData).catch(err => {
