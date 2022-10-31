@@ -8,21 +8,21 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - redis
-      - mongodb
-      - mysql
+      redis: { condition: service_healthy }
+      mysql: { condition: service_healthy }
 
   redis:
     container_name: idiom-redis
     image: redis:alpine
-    restart: always
+    restart: always    
+    ports:
+      - "6379:6379"
     volumes:
       - ./redis/config:/etc/redis
       - ./redis/data:/data
       - ./redis/logs:/logs
     # command: /etc/redis/redis.conf
-    ports:
-      - "6379:6379"
+
     healthcheck:
       test: [ "CMD", "redis-cli", "PING" ]
       start_period: 10s
@@ -37,6 +37,11 @@ services:
       - 27017:27017
     volumes:
       - ./mongo/data/:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      start_period: 10s
+      interval: 5s
+      timeout: 1s
 
   mysql:
     container_name: idiom-mysql
@@ -49,10 +54,16 @@ services:
       --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_HOST: mysql
       MYSQL_DATABASE: idiom
       MYSQL_USER: idiom
       MYSQL_PASSWORD: idiom
       MYSQL_ROOT_PASSWORD: kqnmUcWD94FbHTeNwWbo
-  
+    healthcheck:
+      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      start_period: 10s
+      interval: 5s
+      timeout: 1s
 
   
