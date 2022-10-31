@@ -20,7 +20,7 @@ const swaggerSpecPath = "/swagger.json";
 // mysql config
 
 const mysqlConfig = {
-    host: "localhost",
+    host: "mysql",
     user: "idiom",
     password: "idiom",
     database: "idiom",
@@ -29,11 +29,11 @@ const mysqlConfig = {
 
 // mongodb config
 
-const mongodbUrl = "mongodb://127.0.0.1:27017"
+const mongodbUrl = "mongodb://mongodb:27017"
 
 const redisConfig = {
     port: 6379,
-    host: "127.0.0.1",
+    host: "redis",
 }
 
 // idiom resource manager config 
