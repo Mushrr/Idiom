@@ -2,7 +2,7 @@ version: "3"
 services:
   idiom:
     container_name: idiom-server
-    build: .
+    build: ./docker
     # image: sirly/idiom:latest
     restart: always
     ports:
