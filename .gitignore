@@ -1,3 +1,4 @@
 .idea
 node_modules
 slidev
+/init/deploy.ps1

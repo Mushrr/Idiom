@@ -1,9 +1,9 @@
 const fs = require("fs");
-const { exec } = require("child_process");
 const path = require("path");
 const { tree, } = require("../utils/utils");
 const { logger } = require("../middlewares/logger");
-const { sql: sqlClient } = require("../utils/db")
+const IdiomResourceManager = require("../modules/sourcemanager/core/core");
+const { mysqlClient, mongoClient, redisClient } = IdiomResourceManager.getInstance().DB;
 
 /**
  * 
@@ -19,13 +19,12 @@ function handleSQL(sql) {
     }).toString();
     
     let sqls = ans.split(";").map(el => el.trim());
-    
+
     for (let sqlData of sqls) {
-        console.log(sqlData);
         if (sqlData !== "") {
-            sqlClient.query(sqlData).then(ans => {
-                console.log(ans);
-            }); // 执行
+            return mysqlClient.query(sqlData).catch(err => {
+                logger.error(err);
+            })
         }
     }
     // 执行处理工作
@@ -40,17 +39,11 @@ function handleSQL(sql) {
  * }} mongoVal 
  */
 function handleMongo(mongoVal) {
-    exec(`mongosh --file ${path.join(__dirname, mongoVal.path)}`, (err, out) => {
-        if (err) {
-            throw err;
-        } else {
-            console.log(out);
-        }
-    })
+    mongoClient.insert(mongoVal); // 处理
 }
 
 function handleRedis() {
-
+    // redisClient 处理
 }
 
 function handle(configTree) {
@@ -60,9 +53,9 @@ function handle(configTree) {
         } else {
             logger.info(`🧊 loading ${value.filename}`)
             if (value.type === "sql") {
-                handleSQL(value);
+                allPromise.push(handleSQL(value));
             } else if (value.type === "mongo") {
-                handleMongo(value);
+                // handleMongo(value);
             } else if (value.type === "redis") {
                 handleRedis(value);
             }
@@ -71,11 +64,16 @@ function handle(configTree) {
     }
 }
 
+const allPromise = [];
+
 tree({
     dirpath: "../init",
     skip: ["md"]
 }).then(ans => {
     handle(ans);
+    Promise.all(allPromise).then(() => {
+        logger.info("✨ finish loading all init files");
+        process.exit();
+    })
 })
-
 

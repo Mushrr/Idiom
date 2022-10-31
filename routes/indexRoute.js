@@ -20,14 +20,13 @@ indexRoute.get("/", async (ctx, next) => {
     
     // 给redis 注册一个插件
     const { redisClient: redis } = ctx.resourceManager.DB;
-    
     redis.registryPlugin("add", async (redisC, key, value) => {
         return redisC.db.set(key, value);
     })
     redis.registryPlugin("get", async (redisC, key) => {
         return redisC.db.get(key);
     })
-
+    await redis.add("tea", "红茶");
     ctx.body = `${await redis.get("tea")}`; // OK了
     await next();
 })

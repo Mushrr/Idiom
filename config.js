@@ -33,7 +33,7 @@ const mongodbUrl = "mongodb://127.0.0.1:27017"
 
 const redisConfig = {
     port: 6379,
-    host: "172.17.218.104",
+    host: "127.0.0.1",
 }
 
 // idiom resource manager config 
