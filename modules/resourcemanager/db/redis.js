@@ -1,6 +1,6 @@
 // 虚拟化redis
 const Redis = require("ioredis");
-const { iterable, isFunction, isString } = require("mushr");
+const { iterable, isFunction, isObject } = require("mushr");
 const { redisConfig } = require("../../../config");
 const { logger } = require("../../../middlewares/logger");
 
@@ -9,10 +9,13 @@ class RedisClient {
         const pluginIterator = iterable(plugins);
         if (pluginIterator) {
             for (const plugin of plugins) {
-                if (isString(plugin.name) && isFunction(plugin.execute)) {
-                    instance.registryRedisPlugin(plugin.name, plugin.execute);
-                    this.plugin.pluginNums += 1;
+                if (isFunction(plugin)) {
+                    const pluginEntity = plugin();
+                    instance.registryPlugin(pluginEntity.name, pluginEntity.execute);
+                } else if (isObject(plugin)) {
+                    instance.registryPlugin(plugin.name, plugin.execute);
                 }
+                instance.pluginNums += 1;
             }
         } else {
             logger.error("发现 redis的plugins 不可迭代!!!")

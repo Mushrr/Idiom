@@ -1,5 +1,5 @@
 const coreLogger = require("./modules/resourcemanager/core/plugins/core-logger")
-
+const isUserExist = require("./modules/resourcemanager/db/mysql-plugins/isUserExist.js")
 
 // 生产环境与开发环境隔离
 
@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === "production") {
 const projectName = "Idiom";
 
 const path = require("path");
+const addUser = require("./modules/resourcemanager/db/mysql-plugins/addUser");
 
 const host = "localhost";
 
@@ -54,6 +55,10 @@ const redisConfig = {
 const idiomRMConfig = {
     resourceManagerPlugin: [
         coreLogger,
+    ],
+    mysqlPlugin: [
+        isUserExist,
+        addUser
     ]
 }
 

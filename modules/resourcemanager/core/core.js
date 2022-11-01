@@ -13,9 +13,9 @@ const DB = require("../db/db");
 
 class IdiomResourceManager {
     static core = null;
-    static getInstance() {
+    static getInstance(plugins) {
         if (!IdiomResourceManager.core) {
-            IdiomResourceManager.core = new IdiomResourceManager(); // 初始化单例
+            IdiomResourceManager.core = new IdiomResourceManager(plugins); // 初始化单例
         }
 
         return IdiomResourceManager.core;
@@ -40,10 +40,10 @@ class IdiomResourceManager {
         }
     }
 
-    static _dbInitialize() {
+    static _dbInitialize(mysqlPlugin = [], mongoPlugin = [], redisPlugin = []) {
         // 未初始化的时候初始化
         // 初始化当前db
-        IdiomResourceManager.core.DB = new DB();
+        IdiomResourceManager.core.DB = new DB(mysqlPlugin, mongoPlugin, redisPlugin);
     }
 
     // plugins 插件们

@@ -3,12 +3,18 @@ const mysql = require("mysql");
 const { mysqlConfig } = require("../../../config");
 const { getObjectKeys, getObjectValues, getObjectPair } = require("../../../utils/utils");
 const { logger } = require("../../../middlewares/logger");
+const { isFunction, isObject } = require("mushr");
 
 class MysqlClient {
 
     static _mysqlPluginLoad(instance, plugins) {
-        for (const plugin in plugins) {
-            instance.registryPlugin(plugin.name, plugin.execute);
+        for (const plugin of plugins) {
+            if (isFunction(plugin)) {
+                const pluginEntity = plugin();
+                instance.registryPlugin(pluginEntity.name, pluginEntity.execute);
+            } else if (isObject(plugin)) {
+                instance.registryPlugin(plugin.name, plugin.execute);
+            }
             instance.pluginNums += 1;
         }
     }

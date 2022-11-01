@@ -16,6 +16,7 @@
     "cross-env": "^7.0.3",
     "ioredis": "^5.2.3",
     "koa": "^2.13.4",
+    "koa-body": "^6.0.1",
     "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
     "koa2-swagger-ui": "^5.5.1",
@@ -25,6 +26,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.20",
     "openapi-types": "^12.0.2",
+    "sha256": "^0.2.0",
     "swagger-jsdoc": "^6.2.1"
   },
   "devDependencies": {

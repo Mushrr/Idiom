@@ -3,7 +3,7 @@ const { logger } = require("../../../middlewares/logger");
 const { MongoClient: Mongo } = require("mongodb");
 const { mongodbUrl } = require("../../../config");
 const { initOptionsIfNotExists } = require("../../../utils/utils");
-
+const { isFunction, isObject } = require("mushr");
 // mongo 插件实例
 // function mongoPluginTest() {
 //     return {
@@ -18,7 +18,12 @@ class MongoClient {
 
     static _mongoPluginLoad(instance, plugins) {
         for (const plugin of plugins) {
-            instance.registryPlugin(plugin.name, plugin.execute); // 快速导入插件
+            if (isFunction(plugin)) {
+                const pluginEntity = plugin();
+                instance.registryPlugin(pluginEntity.name, pluginEntity.execute);
+            } else if (isObject(plugin)) {
+                instance.registryPlugin(plugin.name, plugin.execute);
+            }
             instance.pluginNums += 1;
         }
     }
