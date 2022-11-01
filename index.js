@@ -24,7 +24,6 @@ app.use(koaBody({
     multipart: true,
 }));
 // 获取resourceManagerCore的Middleware, 插件导入;
-console.log(idiomRMConfig);
 app.use(IdiomResourceManager.getResourceManagerCoreMiddleware(
     idiomRMConfig // idiom resource manager 的插件
 ));

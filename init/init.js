@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { tree, } = require("../utils/utils");
 const { logger } = require("../middlewares/logger");
-const IdiomResourceManager = require("../modules/sourcemanager/core/core");
+const IdiomResourceManager = require("../modules/resourcemanager/core/core");
 const { mysqlClient, mongoClient, redisClient } = IdiomResourceManager.getInstance().DB;
 
 /**
