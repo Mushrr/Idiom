@@ -6,7 +6,7 @@ RUN apk -U --no-cache update \
 
 WORKDIR /app
 
-RUN git clone --depth=1 --branch main https://github.com/Mushrr/Idiom.git \
+RUN git clone --depth=1 --branch main https://github.com/SirlyDreamer/Idiom.git \
     && cd ./Idiom \
     && yarn install
 

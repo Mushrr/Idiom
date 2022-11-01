@@ -61,7 +61,7 @@ services:
       MYSQL_PASSWORD: idiom
       MYSQL_ROOT_PASSWORD: kqnmUcWD94FbHTeNwWbo
     healthcheck:
-      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      test: mysqladmin ping -h $$MYSQL_HOST -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       start_period: 10s
       interval: 5s
       timeout: 1s
