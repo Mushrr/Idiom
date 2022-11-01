@@ -10,19 +10,17 @@ services:
     depends_on:
       redis: { condition: service_healthy }
       mysql: { condition: service_healthy }
+      mongodb: { condition: service_started }
 
   redis:
     container_name: idiom-redis
     image: redis:alpine
     restart: always    
-    ports:
-      - "6379:6379"
     volumes:
       - ./redis/config:/etc/redis
       - ./redis/data:/data
       - ./redis/logs:/logs
     # command: /etc/redis/redis.conf
-
     healthcheck:
       test: [ "CMD", "redis-cli", "PING" ]
       start_period: 10s
@@ -33,21 +31,12 @@ services:
     container_name: idiom-mongo
     image: mongo:latest
     restart: always
-    ports:
-      - 27017:27017
     volumes:
       - ./mongo/data/:/data/db
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
-      start_period: 10s
-      interval: 5s
-      timeout: 1s
 
   mysql:
     container_name: idiom-mysql
     image: mysql:5.7
-    ports:
-      - 3306:3306
     volumes:
       - ./mysql/data:/var/lib/mysql
     command: 
@@ -65,5 +54,3 @@ services:
       start_period: 10s
       interval: 5s
       timeout: 1s
-
-  
