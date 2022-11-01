@@ -2,8 +2,8 @@
 
 
 if [[ ! -f "$HOME/.ovo" ]]; then
-    npm run init
+    yarn run init
     touch ~/.ovo
 fi
 
-npm run build
+yarn run start
