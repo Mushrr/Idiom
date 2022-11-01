@@ -8,7 +8,8 @@
   "scripts": {
     "init": "node ./init/init.js",
     "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js"
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "build": "cross-env NODE_ENV=production node index.js"
   },
   "dependencies": {
     "@types/mysql": "^2.15.21",

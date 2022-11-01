@@ -28,8 +28,6 @@ indexRoute.get("/", async (ctx, next) => {
         return redisC.db.get(key);
     })
     await redis.add("tea", "红茶");
-    console.log(await mysql.query("show tables"));
-    ctx.resourceManager.execInstruction(instruction);
     ctx.body = `${await redis.get("tea") }`; // OK了
     await next();
 })

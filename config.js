@@ -1,5 +1,19 @@
 const coreLogger = require("./modules/resourcemanager/core/plugins/core-logger")
 
+
+// 生产环境与开发环境隔离
+
+let redis = "localhost",
+    mysql = "localhost",
+    mongodb = "localhost";
+
+if (process.env.NODE_ENV === "production") {
+    redis = "redis";
+    mysql = "mysql";
+    mongodb = "mongodb";
+}
+
+
 // config
 const projectName = "Idiom";
 
@@ -20,7 +34,7 @@ const swaggerSpecPath = "/swagger.json";
 // mysql config
 
 const mysqlConfig = {
-    host: "mysql",
+    host: mysql,
     user: "idiom",
     password: "idiom",
     database: "idiom",
@@ -29,11 +43,11 @@ const mysqlConfig = {
 
 // mongodb config
 
-const mongodbUrl = "mongodb://mongodb:27017"
+const mongodbUrl = `mongodb://${mongodb}:27017`
 
 const redisConfig = {
     port: 6379,
-    host: "redis",
+    host: redis,
 }
 
 // idiom resource manager config 

@@ -6,4 +6,4 @@ if [[ ! -f "$HOME/.ovo" ]]; then
     touch ~/.ovo
 fi
 
-yarn run dev
+yarn run build
