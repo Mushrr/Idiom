@@ -159,57 +159,57 @@ class IdiomResourceManager {
     }
 }
 
-// Example
-function useLogger(core) {
-    return {
-        name: "logger",
-        core: core,
+// // Example
+// function useLogger(core) {
+//     return {
+//         name: "logger",
+//         core: core,
 
-        onload() {
-            console.log("插件logger打印了", this.core.plugins[0].name); //
-        },
-        onreturn(data) {
-            logger.info(data);
-        }
-    }
-}
+//         onload() {
+//             console.log("插件logger打印了", this.core.plugins[0].name); //
+//         },
+//         onreturn(data) {
+//             logger.info(data);
+//         }
+//     }
+// }
 
-const showError = {
-    beforeExecute() {
-        console.log("在我执行之前");
-    },
-    execute: () => {
-        throw "我是个错误";
-    },
-    onreturn(data) {
-        console.log(data); // 这是我的数据
-    },
-    onerror(errr) {
-        logger.error(errr);
-    }
-}
+// const showError = {
+//     beforeExecute() {
+//         console.log("在我执行之前");
+//     },
+//     execute: () => {
+//         throw "我是个错误";
+//     },
+//     onreturn(data) {
+//         console.log(data); // 这是我的数据
+//     },
+//     onerror(errr) {
+//         logger.error(errr);
+//     }
+// }
 
-const showDb = {
-    beforeExecute() {
-        console.log("在我执行之前");
-    },
-    execute: ({db: {name}}) => {
-        // 解包拿到对应的数据
-        // 嵌套解包
-        return name;
-    },
-    onreturn(data) {
-        console.log(`instruction 发现 ${data.toString()}`); // 这是我的数据
-    },
-    onerror(errr) {
-        logger.error(errr);
-    }
-}
+// const showDb = {
+//     beforeExecute() {
+//         console.log("在我执行之前");
+//     },
+//     execute: ({db: {name}}) => {
+//         // 解包拿到对应的数据
+//         // 嵌套解包
+//         return name;
+//     },
+//     onreturn(data) {
+//         console.log(`instruction 发现 ${data.toString()}`); // 这是我的数据
+//     },
+//     onerror(errr) {
+//         logger.error(errr);
+//     }
+// }
 
-const core = new IdiomResourceManager([useLogger]);
-const newCore = IdiomResourceManager.getInstance();
-newCore.execInstruction(showError);
-core.execInstruction(showDb);
+// const core = new IdiomResourceManager([useLogger]);
+// const newCore = IdiomResourceManager.getInstance();
+// newCore.execInstruction(showError);
+// core.execInstruction(showDb);
 
 
 // 数据库资源使用
