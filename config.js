@@ -19,6 +19,8 @@ const projectName = "Idiom";
 
 const path = require("path");
 const addUser = require("./modules/resourcemanager/db/mysql-plugins/addUser");
+const useTokenBind = require("./modules/resourcemanager/db/mysql-plugins/tokenBind");
+const tokenVarify = require("./modules/resourcemanager/db/mysql-plugins/tokenVarify");
 
 const host = "localhost";
 
@@ -58,7 +60,9 @@ const idiomRMConfig = {
     ],
     mysqlPlugin: [
         isUserExist,
-        addUser
+        addUser,
+        useTokenBind,
+        tokenVarify
     ]
 }
 

@@ -5,18 +5,33 @@ const userRegistryRoute = new Route();
 
 userRegistryRoute.post("/", async (ctx, next) => {
     const { mysqlClient: mysql } = ctx.resourceManager.DB;
+    const responseBody = {
+        code: 0,
+        message: "success",
+        data: null,
+    }
 
-    if (await mysql.isUserExist(ctx.request.body.username)) {
-        ctx.body = {
-            code: 1,
-            message: "用户名已存在"
-        };
-    } else {
-        await mysql.addUser(ctx.request.body);
-        ctx.body = {
-            code: 0,
-            message: "注册成功"
-        };
+
+    try {
+        if (await mysql.isUserExist(ctx.request.body.username)) {
+            responseBody.code = 1;
+            responseBody.message = "user already exist";
+            responseBody.data = `${ctx.request.body.username} already exist, you can login with it`;
+            ctx.body = responseBody;
+            ctx.status = 202;
+        } else {
+            const res = await mysql.addUser(ctx.request.body);
+            console.log(res);
+            responseBody.data = `${ctx.request.body.username} register success`;
+            ctx.body = responseBody;
+            ctx.status = 200;
+        }
+    } catch (err) {
+        responseBody.code = -1;
+        responseBody.message = "register failed";
+        responseBody.data = err;
+        ctx.body = responseBody;
+        ctx.status = 500;
     }
 
     await next();
