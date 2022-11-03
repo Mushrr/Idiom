@@ -1,4 +1,5 @@
 // 常用函数
+// 如果遇到一些通用的函数可以放在这里！！！
 const fs = require("fs/promises");
 const path = require("path");
 const { logger } = require("../middlewares/logger");
@@ -269,7 +270,13 @@ function rawToJSON(rawData) {
  */
 function renameFile(file) {
     try {
-        const filename = randomString(32) + "." + file.mimetype.split("/")[1];
+        let filename = randomString(32) + ".";
+        if (file.originalFilename.indexOf(".") > -1) {
+            filename += file.originalFilename.split(".").slice(-1);
+        } else {
+            filename += file.mimetype.split("/").slice(-1);
+        }
+        
         return filename;
     } catch (err) {
         return false;

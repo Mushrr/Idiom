@@ -40,10 +40,10 @@ class IdiomResourceManager {
         }
     }
 
-    static _dbInitialize(mysqlPlugin = [], mongoPlugin = [], redisPlugin = []) {
+    static _dbInitialize(mysqlPlugin = [], mongoPlugin = [], redisPlugin = [], rawPlugin = []) {
         // 未初始化的时候初始化
         // 初始化当前db
-        IdiomResourceManager.core.DB = new DB(mysqlPlugin, mongoPlugin, redisPlugin);
+        IdiomResourceManager.core.DB = new DB(mysqlPlugin, mongoPlugin, redisPlugin, rawPlugin);
     }
 
     // plugins 插件们
@@ -58,13 +58,14 @@ class IdiomResourceManager {
         }
     }
 
-    constructor(config = { resourceManagerPlugin: [], mysqlPlugin: [], mongoPlugin: [], redisPlugin: [] }) {
+    constructor(config = { resourceManagerPlugin: [], mysqlPlugin: [], mongoPlugin: [], redisPlugin: [], rawPlugin: [] }) {
         // 如果某些参数未定义，则附上初始值
         initOptionsIfNotExists(config, { 
             resourceManagerPlugin: [], 
             mysqlPlugin: [], 
             mongoPlugin: [], 
-            redisPlugin: [] 
+            redisPlugin: [],
+            rawPlugin: []
         });
         if (!IdiomResourceManager.core) {
             IdiomResourceManager.core = this; // 绑定
@@ -73,7 +74,8 @@ class IdiomResourceManager {
             IdiomResourceManager._dbInitialize(
                 config.mysqlPlugin, 
                 config.mongoPlugin, 
-                config.redisPlugin
+                config.redisPlugin,
+                config.rawPlugin
             ); // 初始化数据库
             logger.info("数据库初始化完毕");
             logger.info("开始插件初始化");

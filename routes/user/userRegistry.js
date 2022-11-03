@@ -30,7 +30,7 @@ userRegistryRoute.post("/", async (ctx, next) => {
 
             mysql.insert("user_info_detail", {
                 user_id: res.user_id,
-                avator: "http://localhost:3000/image/default.jpeg",
+                avator: "image/default.jpeg",
             })
         }
     } catch (err) {

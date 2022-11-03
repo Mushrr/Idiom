@@ -13,6 +13,8 @@ indexRoute.get("/", async (ctx, next) => {
         <p>${JSON.stringify(Object.keys(ctx.resourceManager.DB.mongoClient))}</p>
         <p>已加载的Redis插件</p>
         <p>${JSON.stringify(Object.keys(ctx.resourceManager.DB.redisClient))}</p>
+        <p>已加载的Raw插件</p>
+        <p>${JSON.stringify(Object.keys(ctx.resourceManager.DB.raw))}</p>
         <p>请访问 <a href="https://www.apifox.cn/web/project/1679286">Apifox文档</a> 查看接口文档</p>
         <p>优美胜于丑陋</p>
         <p>明了胜于晦涩</p>

@@ -30,7 +30,7 @@ avatorUpRoute.post("/", async (ctx, next) => {
                     const reader = fs.createReadStream(file.filepath);
                     const stream = fs.createWriteStream(path.join(__dirname, `../../assets/image/${filename}`));
                     reader.pipe(stream);
-                    responseBody.data = `http://localhost:3000/image/${filename}`;
+                    responseBody.data = `image/${filename}`;
                     ctx.body = responseBody;
                     ctx.status = 200;
 
