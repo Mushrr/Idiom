@@ -21,6 +21,8 @@ const path = require("path");
 const addUser = require("./modules/resourcemanager/db/mysql-plugins/addUser");
 const useTokenBind = require("./modules/resourcemanager/db/mysql-plugins/tokenBind");
 const tokenVarify = require("./modules/resourcemanager/db/mysql-plugins/tokenVarify");
+const getUserFromToken = require("./modules/resourcemanager/db/mysql-plugins/getUserFromToken");
+const userInfoUpdate = require("./modules/resourcemanager/db/mysql-plugins/userInfoUpdate");
 
 const host = "localhost";
 
@@ -62,7 +64,9 @@ const idiomRMConfig = {
         isUserExist,
         addUser,
         useTokenBind,
-        tokenVarify
+        tokenVarify,
+        getUserFromToken,
+        userInfoUpdate
     ]
 }
 

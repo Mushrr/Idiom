@@ -14,18 +14,18 @@ function useTokenBind() {
                         const expiredTime = `${new Date().getTime() + 1000 * 60 * 60 * 24 * 7}`.slice(0, -3);
                         db.query(`
                             REPLACE INTO idiom_token(
-                                token_id,
                                 user_id,
+                                token_id,
                                 expired,
                                 ip,
                                 is_expired
                             ) values(
-                                '${token}',
                                 '${userid}',
+                                '${token}',
                                 from_unixtime(${expiredTime}),
                                 '${ip}',
                                 0
-                            )
+                            );
                         `).then(() => {
                             resolve(token); 
                             // token 有效期为 7 天

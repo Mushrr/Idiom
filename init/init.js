@@ -19,13 +19,14 @@ function handleSQL(sql) {
     }).toString();
     
     let sqls = ans.split(";").map(el => el.trim());
+    const promiseList = [];
     for (let sqlData of sqls) {
         if (sqlData !== "") {
-            return mysqlClient.query(sqlData).catch(err => {
-                logger.error(err);
-            })
+            console.log(sqlData);
+            promiseList.push(mysqlClient.query(sqlData))
         }
     }
+    return promiseList;
     // 执行处理工作
 }
 
@@ -52,7 +53,7 @@ function handle(configTree) {
         } else {
             logger.info(`🧊 loading ${value.filename}`)
             if (value.type === "sql") {
-                allPromise.push(handleSQL(value));
+                allPromise.push(...handleSQL(value));
             } else if (value.type === "mongo") {
                 // handleMongo(value);
             } else if (value.type === "redis") {
@@ -70,8 +71,12 @@ tree({
     skip: ["md"]
 }).then(ans => {
     handle(ans);
+    console.log(allPromise);
     Promise.all(allPromise).then(() => {
         logger.info("✨ finish loading all init files");
+        process.exit();
+    }).catch(err => {
+        logger.error(err);
         process.exit();
     })
 })

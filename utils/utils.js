@@ -262,6 +262,19 @@ function rawToJSON(rawData) {
     return JSON.parse(JSON.stringify(rawData));
 }
 
+/**
+ * 重新命名文件名
+ * @param {file} file koa-body file 对象
+ * @returns 文件名
+ */
+function renameFile(file) {
+    try {
+        const filename = randomString(32) + "." + file.mimetype.split("/")[1];
+        return filename;
+    } catch (err) {
+        return false;
+    }
+}
 
 module.exports = {
     getSuffixName,
@@ -275,5 +288,6 @@ module.exports = {
     rawToJSON,
     dataTransform,
     randomString,
-    initOptionsIfNotExists
+    initOptionsIfNotExists,
+    renameFile
 }

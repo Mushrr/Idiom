@@ -5,3 +5,7 @@ slidev
 mongo
 mysql
 redis
+assets/image/*
+!assets/image/default.jpeg
+!assets/image/other.jpg
+!assets/image/nanami.jpg

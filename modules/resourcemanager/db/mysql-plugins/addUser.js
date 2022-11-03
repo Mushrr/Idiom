@@ -9,19 +9,22 @@ function addUser() {
         name: "addUser",
         execute: (db, user) => {
             return new Promise((resolve, reject) => {
-                const userid = randomStr(64);
+                const user_id = randomStr(64);
                 db.query(`insert into userinfo (
                         user_id, 
                         username, 
                         password
                     ) 
                     values (
-                        '${userid}', 
+                        '${user_id}', 
                         '${user.username}', 
                         '${sha256(user.password)}'
                     )`)
-                    .then(result => {
-                        resolve(result);
+                    .then(() => {
+                        resolve({
+                            user_id,
+                            username: user.username
+                        });
                     })
                     .catch(err => {
                         reject(err);

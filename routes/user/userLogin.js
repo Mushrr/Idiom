@@ -53,10 +53,21 @@ async function login(ctx) {
                 responseBody.code = 0;
                 responseBody.message = "login success";
                 responseBody.data = {
-                    token: token
+                    token: token,
+                    userinfo: await mysql.getUserFromToken(token)
                 };
+                
+                console.log(token);
+                mysql.update("userinfo", {
+                    user_id: user_id,
+                }, {
+                    token_id: token
+                })
+
                 ctx.body = responseBody;
                 ctx.status = 200;
+                // 修改用户所绑定的token
+                
             } else {
                 responseBody.code = -1;
                 responseBody.message = "password error";
@@ -86,45 +97,53 @@ userLoginRoute.post("/", async (ctx, next) => {
     // 验证当前 用户是否以前登录过了
     // 如果登录过了直接返回允许
     const { mysqlClient: mysql } = ctx.resourceManager.DB;
-    if (ctx.cookies.get("token")) {
-        const varifyAns = await mysql.tokenVarify(ctx.cookies.get("token"));
-    
-        if (varifyAns.status === "ok") {
-            ctx.body = {
-                code: 0,
-                message: "success",
-                data: "you have login"
-            }
-            ctx.status = 200;
-        } else if (varifyAns.status === "expired") {
-            ctx.body = {
-                code: 2,
-                message: "token expired",
-                data: "token expired, please login again"
-            }
-            ctx.status = 406;
-            ctx.cookies.set("token", "");
-        } else if (varifyAns.status === "error") {
-            ctx.body = {
-                code: -2,
-                message: "token error",
-                data: "token error, please login again"
-            }
-            ctx.status = 500;
-            ctx.cookies.set("token", "");
-        } else {
-            ctx.body = {
-                code: -2,
-                message: "token error",
-                data: "token error, please login again"
-            }
-            ctx.status = 500;
-            ctx.cookies.set("token", "");
-        }
-    } else {
+    if (ctx.request.body.login === "1") {
+        // 用户登录
         await login(ctx);
+    } else {
+        if (ctx.cookies.get("token")) {
+            const token_id = ctx.cookies.get("token")
+            const varifyAns = await mysql.tokenVarify(token_id);
+        
+            if (varifyAns.status === "ok") {
+                
+                ctx.body = {
+                    code: 0,
+                    message: "you have login successfully",
+                    data: {
+                        userinfo: await mysql.getUserFromToken(token_id)
+                    }
+                }
+                ctx.status = 200;
+            } else if (varifyAns.status === "expired") {
+                ctx.body = {
+                    code: 2,
+                    message: "token expired",
+                    data: "token expired, please login again"
+                }
+                ctx.status = 406;
+                ctx.cookies.set("token", "");
+            } else if (varifyAns.status === "error") {
+                ctx.body = {
+                    code: -2,
+                    message: "token error",
+                    data: "token error, please login again"
+                }
+                ctx.status = 500;
+                ctx.cookies.set("token", "");
+            } else {
+                ctx.body = {
+                    code: -2,
+                    message: "token error",
+                    data: "token error, please login again"
+                }
+                ctx.status = 500;
+                ctx.cookies.set("token", "");
+            }
+        } else {
+            await login(ctx);
+        }
     }
-
 
 
     await next(); // 等待下一个路由

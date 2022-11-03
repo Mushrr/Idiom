@@ -25,6 +25,13 @@ userRegistryRoute.post("/", async (ctx, next) => {
             responseBody.data = `${ctx.request.body.username} register success`;
             ctx.body = responseBody;
             ctx.status = 200;
+
+            // 在user_info_detail 中占个位置
+
+            mysql.insert("user_info_detail", {
+                user_id: res.user_id,
+                avator: "http://localhost:3000/image/default.jpeg",
+            })
         }
     } catch (err) {
         responseBody.code = -1;

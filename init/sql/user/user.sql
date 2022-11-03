@@ -4,6 +4,7 @@ create table if not exists userinfo(
     password char(255) unique comment '密码的sha-256加密后的结果',
     token_id char(255) not null unique comment 'token值'
 );
+
 create table if not exists user_info_detail(
     user_id char(64) not null primary key comment '用户唯一ID',
     user_describe text comment '用户的自我介绍',
@@ -13,4 +14,7 @@ create table if not exists user_info_detail(
     unionid char(64) comment '微信的用户唯一标识'
 );
 
-
+drop trigger if exists token_update;
+create trigger token_update after insert on idiom_token
+for each row
+update userinfo set token_id = new.token_id where user_id = new.user_id;

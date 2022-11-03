@@ -46,6 +46,7 @@ class MysqlClient {
                         if (callback) {
                             callback(result, fields);
                         }
+                        connect.release();
                         resolve(result); // 返回期约
                     });
                 }
