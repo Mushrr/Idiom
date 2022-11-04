@@ -88,7 +88,14 @@ class MysqlClient {
     update(table, uniquekey, values) {
         const uniqueQuery = getObjectPair(uniquekey, { separater: " and " });
         const updateValues = getObjectPair(values, { separater: "," });
-        const updateSql = `update ${table} set ${updateValues} where ${uniqueQuery}`;
+        const updateSql = `update ${table} 
+            ${Object.keys(values).length !== 0 ? "set" : ""} 
+            ${updateValues} 
+            ${Object.keys(uniquekey).length !== 0 ? "where" : ""} 
+            ${uniqueQuery}`;
+        if (process.env.NODE_ENV === "development") {
+            logger.log("[mysql.update]:" + updateSql);
+        }
         return this.query(updateSql);
     }
 

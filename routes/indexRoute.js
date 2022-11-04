@@ -5,7 +5,7 @@ const indexRoute = new Route();
 
 indexRoute.get("/", async (ctx, next) => {
     ctx.body = `
-        <div align="center">
+        <div align="center" style="word-break: break-word">
         <h1>欢迎使用idiom接口</h1>
         <p>已加载的Mysql插件</p>
         <p>${JSON.stringify(Object.keys(ctx.resourceManager.DB.mysqlClient))}</p>

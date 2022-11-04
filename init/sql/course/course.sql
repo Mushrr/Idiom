@@ -5,7 +5,7 @@ create table if not exists course(
     course_out_img text comment '课程外部图片',   
     course_times int comment '课程访问次数',
     course_score decimal(3,2) comment '课程分数'
-);
+) charset=utf8mb4 collate=utf8mb4_general_ci;
 
 
 

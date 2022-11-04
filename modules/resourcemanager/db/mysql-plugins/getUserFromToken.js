@@ -8,7 +8,7 @@ function getUserFromToken() {
         name: "getUserFromToken",
         execute: (db, token_id) => {
             return new Promise((resolve, reject) => {
-                db.query(`select * from userinfo where token_id = '${token_id}'`)
+                db.query(`select * from v_user_info where token_id = '${token_id}'`)
                     .then(result => {
                         if (result.length === 0) {
                             reject("token not exist");

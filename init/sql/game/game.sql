@@ -7,4 +7,4 @@ create table if not exists game(
     times int comment '游玩次数',
     score decimal(3,2) comment '游戏分数',
     primary key(game_id, developer, route)
-)
+) charset=utf8mb4 collate=utf8mb4_general_ci;

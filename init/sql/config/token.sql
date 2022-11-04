@@ -4,4 +4,4 @@ create table if not exists idiom_token(
     expired datetime not null comment '过期时间',
     ip char(32) comment 'ip地址',
     is_expired char(1) not null comment '是否已经过期'
-);
+) charset=utf8mb4 collate=utf8mb4_general_ci;
