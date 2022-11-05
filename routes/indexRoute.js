@@ -1,67 +1,9 @@
 // index route
 
 const Route = require("koa-router");
-const { logger } = require("../middlewares/logger");
 const indexRoute = new Route();
 
 indexRoute.get("/", async (ctx, next) => {
-    ctx.resourceManager.DB.mysqlClient.idiomInsert({
-        idiom: "爱莫能助",
-        pronounce: "ài mò néng zhù",
-        storys: [
-            {
-                story_type: "history",
-                participant: [
-                    "广大劳苦人民"
-                ],
-                story: [
-                    "《诗经·大雅·烝民》：“维仲山甫举之，爱莫助之。”"
-                ],
-                img: [
-                    "http://127.0.0.1:3000/image/default.jpg"
-                ],
-                audio: [
-                    "http://127.0.0.1:3000/audio/default.mp3"
-                ],
-                video: [
-                    "http://127.0.0.1:3000/video/default.mp4"
-                ],
-                activate_condition: {
-                    "onload": "xxxx"
-                }
-            },
-            {
-                story_type: "useage_story",
-                participant: [
-                    "广大劳苦人民"
-                ],
-                story: [
-                    "《诗经·大雅·烝民》：“维仲山甫举之，爱莫助之。”"
-                ],
-                img: [
-                    "http://127.0.0.1:3000/image/default.jpg"
-                ],
-                audio: [
-                    "http://127.0.0.1:3000/audio/default.mp3"
-                ],
-                video: [
-                    "http://127.0.0.1:3000/video/default.mp4"
-                ],
-                activate_condition: {
-                    "onload": "xxxx"
-                }
-            }
-        ],
-        usages: [
-            {
-                idiom_text: "爱莫能助，形容爱情无法得到对方的帮助。"
-            }
-        ]
-    }, true).then((res) => {
-        logger.info(res);
-    }).catch(err => {
-        logger.error(err)
-    });
     ctx.body = `
         <div align="center" style="word-break: break-word">
         <h1>欢迎使用idiom接口</h1>
