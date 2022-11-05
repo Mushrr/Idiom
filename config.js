@@ -24,6 +24,7 @@ const tokenVarify = require("./modules/resourcemanager/db/mysql-plugins/tokenVar
 const getUserFromToken = require("./modules/resourcemanager/db/mysql-plugins/getUserFromToken");
 const userInfoUpdate = require("./modules/resourcemanager/db/mysql-plugins/userInfoUpdate");
 const fileUploader = require("./modules/resourcemanager/db/raw-plugins/file-uploader");
+const idiomInsert = require("./modules/resourcemanager/db/mysql-plugins/idiomInsert");
 
 const host = "localhost";
 
@@ -67,7 +68,8 @@ const idiomRMConfig = {
         useTokenBind,
         tokenVarify,
         getUserFromToken,
-        userInfoUpdate
+        userInfoUpdate,
+        idiomInsert
     ],
 
     rawPlugin: [

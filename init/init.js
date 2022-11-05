@@ -3,7 +3,8 @@ const path = require("path");
 const { tree, } = require("../utils/utils");
 const { logger } = require("../middlewares/logger");
 const IdiomResourceManager = require("../modules/resourcemanager/core/core");
-const { mysqlClient, mongoClient, redisClient } = IdiomResourceManager.getInstance().DB;
+const { loadV1 } = require("./chinese-idioms/idiom-initialize");
+const { mysqlClient, mongoClient } = IdiomResourceManager.getInstance().DB;
 
 /**
  * 
@@ -74,7 +75,9 @@ tree({
     console.log(allPromise);
     Promise.all(allPromise).then(() => {
         logger.info("✨ finish loading all init files");
-        process.exit();
+        let idiom_v1 = fs.readFileSync(path.resolve(__dirname, "./chinese-idioms/v1.txt"), { encoding: "utf-8" });
+        console.log(idiom_v1[1]);
+        loadV1(idiom_v1);
     }).catch(err => {
         logger.error(err);
         process.exit();

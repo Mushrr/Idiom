@@ -7,7 +7,7 @@ create table if not exists idiom(
 
 create table if not exists idiom_detail(
     idiom_code char(32) not null unique primary key comment '成语的唯一编码，成语一共大概5万多条',
-    text char(32) not null comment '成语的内容',
+    idiom_text char(32) not null comment '成语的内容',
     pronounce text comment '暂不确定，有可能是URL编码表示图片，有可能直接用字符表示',
     times int comment '搜索的总数'
 )charset=utf8mb4 collate=utf8mb4_general_ci;

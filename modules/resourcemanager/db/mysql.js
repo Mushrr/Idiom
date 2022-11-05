@@ -69,10 +69,9 @@ class MysqlClient {
         if (!(values instanceof Array)) {
             values = [values]
         }
-        for (let value of values) {
+        for (let value of values) {            
             let keyAndValues = `${insertSql} (${getObjectKeys(value, { withTail: false, separater: "," })}) 
             values(${getObjectValues(value, { withTail: false, separater: ",", strictTransform: true })})`;
-            console.log(keyAndValues);
             allPromises.push(this.query(keyAndValues));
         }
 

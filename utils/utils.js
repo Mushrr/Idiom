@@ -158,10 +158,10 @@ function randomString(length) {
     const head = Math.floor(length / 8);
     const rest = length % 8;
     let basic = "";
-    for (let i = 0; i < head; i ++) {
+    for (let i = 0; i < head; i++) {
         basic += Math.random().toString(32).slice(2, 10);
     }
-    basic += Math.random().toString(32).slice(2,2+rest);
+    basic += Math.random().toString(32).slice(2, 2 + rest);
     return basic;
 }
 
@@ -230,7 +230,7 @@ function getObjectValues(obj, options = { withTail: false, separater: ",", stric
  * }} options 
  */
 
-function getObjectPair(obj, options = {withTail: false, connectFlag: "=", separater: ",", strictTransform: true}) {
+function getObjectPair(obj, options = { withTail: false, connectFlag: "=", separater: ",", strictTransform: true }) {
     let ans = "";
     initOptionsIfNotExists(options, { withTail: false, connectFlag: "=", separater: ",", strictTransform: true });
     for (let [key, value] of Object.entries(obj)) {
@@ -276,7 +276,7 @@ function renameFile(file) {
         } else {
             filename += file.mimetype.split("/").slice(-1);
         }
-        
+
         return filename;
     } catch (err) {
         return false;

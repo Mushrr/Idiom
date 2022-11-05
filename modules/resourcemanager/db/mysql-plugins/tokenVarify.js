@@ -3,8 +3,6 @@
 
 function tokenVarify() {
 
-
-
     return {
         name: "tokenVarify",
         execute: (db, token) => {
