@@ -101,9 +101,10 @@ userLoginRoute.post("/", async (ctx, next) => {
         // 用户登录
         await login(ctx);
     } else {
-        if (ctx.cookies.get("token")) {
-            const token_id = ctx.cookies.get("token")
-            const varifyAns = await mysql.tokenVarify(token_id);
+        const token = ctx.cookies.get("token") || ctx.req.headers["authorization"];
+        console.log(ctx.req.headers)
+        if (token) {
+            const varifyAns = await mysql.tokenVarify(token);
         
             if (varifyAns.status === "ok") {
                 
@@ -111,7 +112,7 @@ userLoginRoute.post("/", async (ctx, next) => {
                     code: 0,
                     message: "you have login successfully",
                     data: {
-                        userinfo: await mysql.getUserFromToken(token_id)
+                        userinfo: await mysql.getUserFromToken(token)
                     }
                 }
                 ctx.status = 200;

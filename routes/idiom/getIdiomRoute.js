@@ -14,9 +14,9 @@ getIdiomRoute.get("/", async (ctx, next) => {
         message: "success",
         data: null
     }
-
     try {
-        if ((await mysql.tokenVarify(ctx.cookies.get("token"))).status === "ok") {
+        const token = ctx.cookies.get("token") || ctx.req.headers["authorization"];
+        if ((await mysql.tokenVarify(token)).status === "ok") {
             const { idiom } = ctx.request.query;
             logger.info(ctx.request.query.idiom);
             const needAll = ctx.request.query.needAll === "1";

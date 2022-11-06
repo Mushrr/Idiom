@@ -17,8 +17,9 @@ avatorUpRoute.post("/", async (ctx, next) => {
         data: null,
     }
     // 解析当前请求中是否带有TOKEN，以及TOKEN是否合理
-    if (ctx.cookies.get("token")) {
-        const varifyToken = await mysql.tokenVarify(ctx.cookies.get("token"));
+    const token = ctx.cookies.get("token") || ctx.req.headers["authorization"];
+    if (token) {
+        const varifyToken = await mysql.tokenVarify(token);
         if (varifyToken.status === "ok") {
             // TOKEN 合法
             // 上传头像

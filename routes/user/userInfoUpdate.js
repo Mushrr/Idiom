@@ -14,9 +14,9 @@ userInfoUpdateRoute.post("/", async (ctx, next) => {
         message: "success",
         data: null,
     }
-
-    if (ctx.cookies.get("token")) {
-        const tokenVarify = await mysql.tokenVarify(ctx.cookies.get("token"));
+    const token_id = ctx.cookies.get("token") || ctx.req.headers["authorization"];
+    if (token_id) {
+        const tokenVarify = await mysql.tokenVarify(token_id);
         if (tokenVarify.status === "ok") {
             if (ctx.request.body.user_id) {
                 if (await mysql.isUserExist(ctx.request.body.user_id)) {

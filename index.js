@@ -17,7 +17,15 @@ const IdiomResourceManager = require("./modules/resourcemanager/core/core");
 
 const app = new Koa();
 
+async function cros(ctx, next) {
+    ctx.set("Access-Control-Allow-Origin", "*");
+    ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    ctx.set("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
+    await next();
+}
+
 // log
+app.use(cros);
 app.use(loggerMiddleware);
 app.use(staticMiddleware);
 app.use(koaBody({
