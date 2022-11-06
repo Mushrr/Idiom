@@ -1,4 +1,5 @@
 // 插入一个成语
+// 可以强制校验，以确保不出现重复的成语创建
 
 const { randomStr } = require("mushr");
 
@@ -20,10 +21,8 @@ function idiomInsert() {
          *        participant: [  // 参与人
          *        
          *        ],
-         *        story: [
-         *        ], 故事的内容，可以是一个数组，用于形成多页成语
-         *        img: [
-         *        ], 用于前端展示的图片,
+         *        story: string[], 故事的内容，可以是一个数组，用于形成多页成语
+         *        img: string[], 用于前端展示的图片,
          *        audio: [], 用于前端展示的音频，音效，类似于galgame的形式
          *        video: [
          *        
@@ -49,6 +48,8 @@ function idiomInsert() {
             let idiom_code = idiom.idiom_code;
             const allPromise = [];
             let needToCreate = false;
+
+            // 如果需要检查成语是否存在，这里会进行检查
             if (checkExists) {
                 const queryAns = await db.query(`select * from idiom_detail where idiom_text = '${idiom.idiom}'`);
                 if (queryAns.length === 0) {
@@ -63,10 +64,14 @@ function idiomInsert() {
             // 初始化其余参数，如果发现有idiom_code 被使用了，那么就直接获取已有的
             // 如果没有那么就重新创建
             let story_code, usage_code, recommend_code;
+
+
+            // 既没有指定，又没有在现有数据库中发现
             if (!idiom_code) {
                 idiom_code = randomStr(32); // 随机生成一个idiom_code
                 needToCreate = true;
             } else {
+                // idiom_code已经存在，直接获取
                 // 获取story_code, usage_code, recommend_code
                 const ans = await db.query(`
                     select story_code, usage_code, recommend_code 
@@ -86,7 +91,7 @@ function idiomInsert() {
 
 
 
-
+            // 需要创建新的键值对
             if (needToCreate) {
                 // idiom -> idiom_detail -> idiom_story -> mongodb -> idiom_usage
                 [story_code, usage_code, recommend_code] = [randomStr(32), randomStr(32), randomStr(32)];
@@ -124,18 +129,16 @@ function idiomInsert() {
                     // 遍历每一个添加的story
                     const story_data = {
                         story_code,
-                        story_pattern: story.story_type,
+                        story_type: story.story_type,
                         story_id: randomStr(32),
                     }
                     story.story_id = story_data.story_id; // mongo 与 mysql中的story_id 绑定
                     allPromise.push(db.insert("idiom_story", story_data));
 
                     // 向mongodb 中添加数据
-
-                    allPromise.push(mongo.insert(story.story_type, story));
+                    story.story_code = story_code; // 为了方便查询，将story_code添加到story中
+                    allPromise.push(mongo.insert("story", story));
                 }
-            } else {
-                console.log(`${idiom.idiom}没有故事`);
             }
 
             // 向idiom_usage中插入数据
@@ -150,8 +153,6 @@ function idiomInsert() {
                     }
                     allPromise.push(db.insert("usage_detail", usage_data));
                 }
-            } else {
-                console.log(`${idiom.idiom}没有用法`);
             }
 
             return Promise.all(allPromise).then(() => {

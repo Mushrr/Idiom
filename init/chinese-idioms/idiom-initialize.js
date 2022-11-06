@@ -26,16 +26,16 @@ function loadV1(idiomData) {
         }
 
         if (idiom !== "") {
-            data.idiom = idiom;
+            data.idiom = idiom.slice(1, -1);
         }
         if (pinyin !== "") {
-            data.pronounce = pinyin;
+            data.pronounce = pinyin.slice(1, -1);
         }
 
         if (usage !== "") {
             data.usages = [
                 {
-                    idiom_text: usage,
+                    idiom_text: usage.slice(1, -1),
                 }
             ];
         }
@@ -44,7 +44,7 @@ function loadV1(idiomData) {
             data.stories = [
                 {
                     story_type: "history",
-                    story_text: story,
+                    story_text: story.slice(1, -1),
                 }
             ]
         }

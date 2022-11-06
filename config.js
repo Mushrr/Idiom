@@ -25,6 +25,10 @@ const getUserFromToken = require("./modules/resourcemanager/db/mysql-plugins/get
 const userInfoUpdate = require("./modules/resourcemanager/db/mysql-plugins/userInfoUpdate");
 const fileUploader = require("./modules/resourcemanager/db/raw-plugins/file-uploader");
 const idiomInsert = require("./modules/resourcemanager/db/mysql-plugins/idiomInsert");
+const getIdiom = require("./modules/resourcemanager/db/mysql-plugins/getIdiom");
+const getIdiomUsages = require("./modules/resourcemanager/db/mysql-plugins/getIdiomUsages");
+const getStoryByStoryCode = require("./modules/resourcemanager/db/mongo-plugins/getStoryByStoryCode");
+const increaseIdiom = require("./modules/resourcemanager/db/mysql-plugins/increaseIdiom");
 
 const host = "localhost";
 
@@ -69,7 +73,14 @@ const idiomRMConfig = {
         tokenVarify,
         getUserFromToken,
         userInfoUpdate,
-        idiomInsert
+        idiomInsert,
+        getIdiom,
+        getIdiomUsages,
+        increaseIdiom
+    ],
+
+    mongoPlugin: [
+        getStoryByStoryCode
     ],
 
     rawPlugin: [
