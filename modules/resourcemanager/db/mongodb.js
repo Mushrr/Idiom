@@ -42,6 +42,7 @@ class MongoClient {
             logger.error("在执行mongodb find的时候出现错误!", e);
             throw e;
         }
+        
     }
 
     constructor(plugins = []) {

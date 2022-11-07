@@ -19,7 +19,7 @@ const app = new Koa();
 
 async function cros(ctx, next) {
     ctx.set("Access-Control-Allow-Origin", "*");
-    ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
     ctx.set("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
     await next();
 }
@@ -30,6 +30,11 @@ app.use(loggerMiddleware);
 app.use(staticMiddleware);
 app.use(koaBody({
     multipart: true,
+    parsedMethods: [
+        "POST",
+        "PUT",
+        "DELETE"       
+    ]
 }));
 // 获取resourceManagerCore的Middleware, 插件导入;
 app.use(IdiomResourceManager.getResourceManagerCoreMiddleware(
