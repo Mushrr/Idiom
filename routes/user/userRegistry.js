@@ -1,4 +1,5 @@
 const Route = require("koa-router");
+const { logger } = require("../../middlewares/logger");
 
 
 const userRegistryRoute = new Route();
@@ -39,6 +40,7 @@ userRegistryRoute.post("/", async (ctx, next) => {
         responseBody.data = err;
         ctx.body = responseBody;
         ctx.status = 500;
+        logger.error(err);
     }
 
     await next();

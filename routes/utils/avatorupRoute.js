@@ -38,7 +38,7 @@ avatorUpRoute.post("/", async (ctx, next) => {
 
                     // 更新数据库中的头像信息
 
-                    mysql.getUserFromToken(ctx.cookies.get("token")).then(res => {
+                    mysql.getUserFromToken(token).then(res => {
                         mysql.userInfoUpdate(res.user_id, { avator: responseBody.data }).then(res => {
                             logger.info(`[头像更新] ${res}`);
                         }).catch(err => {

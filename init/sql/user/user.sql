@@ -1,7 +1,7 @@
 create table if not exists userinfo(
     user_id char(64) not null primary key comment '用户唯一键',
     username char(14) not null unique comment '用户名',
-    password char(255) unique comment '密码的sha-256加密后的结果',
+    password char(255) comment '密码的sha-256加密后的结果',
     token_id char(255) unique comment 'token值'
 ) charset=utf8mb4 collate=utf8mb4_general_ci;
 
