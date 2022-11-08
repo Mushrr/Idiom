@@ -31,6 +31,9 @@ const getStoryByStoryCode = require("./modules/resourcemanager/db/mongo-plugins/
 const increaseIdiom = require("./modules/resourcemanager/db/mysql-plugins/increaseIdiom");
 const usageChange = require("./modules/resourcemanager/db/mysql-plugins/usage");
 const idiomCodeVarify = require("./modules/resourcemanager/db/mysql-plugins/idiomCodeVarify");
+const storyChange = require("./modules/resourcemanager/db/mongo-plugins/story");
+const course = require("./modules/resourcemanager/db/mongo-plugins/course");
+const getAllCourses = require("./modules/resourcemanager/db/mongo-plugins/getAllCourses");
 
 const host = "localhost";
 
@@ -84,7 +87,10 @@ const idiomRMConfig = {
     ],
 
     mongoPlugin: [
-        getStoryByStoryCode
+        getStoryByStoryCode,
+        storyChange,
+        course,
+        getAllCourses
     ],
 
     rawPlugin: [

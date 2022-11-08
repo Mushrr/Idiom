@@ -9,7 +9,7 @@ function getStoryByStoryCode() {
         "execute": async ({db}, storyCode) => {
             const collection = db.collection("story");
             const allStories = await collection.find({ "story_code": storyCode }).toArray();
-
+            
             const storyAns = {};
 
             console.log(allStories);

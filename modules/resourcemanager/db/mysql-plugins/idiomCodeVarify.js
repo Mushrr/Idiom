@@ -69,6 +69,28 @@ function idiomCodeVarify() {
                 else {
                     throw new Error("故事重复");
                 }
+            case "user_id":
+                queryAns = await db.query(`select * from userinfo where user_id = '${code}'`);
+                if (queryAns.length === 0) {
+                    return false;
+                }
+                else if (queryAns.length === 1) {
+                    return true;
+                }
+                else {
+                    throw new Error("用户重复");
+                }
+            case "course_id":
+                queryAns = await db.query(`select * from course where course_id = '${code}'`);
+                if (queryAns.length === 0) {
+                    return false;
+                }
+                else if (queryAns.length === 1) {    
+                    return true;
+                }
+                else {
+                    throw new Error("课程重复");
+                }
             default:
                 throw new Error("未知的code类型");
             }
