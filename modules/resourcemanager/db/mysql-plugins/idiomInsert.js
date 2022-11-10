@@ -2,6 +2,7 @@
 // 可以强制校验，以确保不出现重复的成语创建
 
 const { randomStr } = require("mushr");
+const { getCurrentMysqlDate } = require("../../../../utils/utils");
 
 function idiomInsert() {
 
@@ -145,11 +146,12 @@ function idiomInsert() {
 
             if (Array.isArray(idiom.usages) && idiom.usages.length !== 0) {
                 for (const usage of idiom.usages) {
+                    const now = getCurrentMysqlDate();
                     const usage_data = {
                         usage_code,
                         usage_id: randomStr(32),
                         idiom_text: usage.idiom_text,
-                        last_change: usage.last_change ? usage.last_change : new Date().toLocaleString(),
+                        last_change: usage.last_change ? usage.last_change : now,
                     }
                     allPromise.push(db.insert("usage_detail", usage_data));
                 }
