@@ -12,6 +12,7 @@
 
 const Route = require("koa-router");
 const sha256 = require("sha256");
+const { logger } = require("../../middlewares/logger");
 
 
 const userLoginRoute = new Route();
@@ -34,6 +35,7 @@ async function login(ctx) {
             const loginCheck = new Promise((resolve, reject) => {
                 mysql.query(`select * from userinfo where username = '${ctx.request.body.username}'`)
                     .then(result => {
+                        logger.info(result);
                         if (result[0].password === sha256(ctx.request.body.password)) {
                             user_id = result[0].user_id;
                             resolve(true);
